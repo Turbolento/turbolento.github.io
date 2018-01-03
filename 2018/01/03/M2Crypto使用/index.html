@@ -68,11 +68,13 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="python,crypt,rsa," />
 
 
 
 
+
+  <link rel="alternate" href="/atom.xml" title="千里一日还先生" type="application/atom+xml" />
 
 
 
@@ -80,13 +82,14 @@
 
 
 <meta name="description" content="加解密数据、操作密钥、操作SSL协议普遍使用了OpenSSL。虽然还有其它的使用C/C++开发的加密处理库，但是Python环境下支持最好的使用最广泛的还是OpenSSL。  据python.org官方网站，目前有三个库提供了OpenSSL的包装。   PyOpenSSL。这个库是比较早的，但是作者已经停止开发，并且只支持SSL功能，而没有提供加密、解密、X509等功能的包装。  M2Crypto">
+<meta name="keywords" content="python,crypt,rsa">
 <meta property="og:type" content="article">
 <meta property="og:title" content="M2Crypto使用">
 <meta property="og:url" content="http://yoursite.com/2018/01/03/M2Crypto使用/index.html">
-<meta property="og:site_name" content="千里一日还">
+<meta property="og:site_name" content="千里一日还先生">
 <meta property="og:description" content="加解密数据、操作密钥、操作SSL协议普遍使用了OpenSSL。虽然还有其它的使用C/C++开发的加密处理库，但是Python环境下支持最好的使用最广泛的还是OpenSSL。  据python.org官方网站，目前有三个库提供了OpenSSL的包装。   PyOpenSSL。这个库是比较早的，但是作者已经停止开发，并且只支持SSL功能，而没有提供加密、解密、X509等功能的包装。  M2Crypto">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-01-03T05:49:29.478Z">
+<meta property="og:updated_time" content="2018-01-03T08:26:43.434Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="M2Crypto使用">
 <meta name="twitter:description" content="加解密数据、操作密钥、操作SSL协议普遍使用了OpenSSL。虽然还有其它的使用C/C++开发的加密处理库，但是Python环境下支持最好的使用最广泛的还是OpenSSL。  据python.org官方网站，目前有三个库提供了OpenSSL的包装。   PyOpenSSL。这个库是比较早的，但是作者已经停止开发，并且只支持SSL功能，而没有提供加密、解密、X509等功能的包装。  M2Crypto">
@@ -125,7 +128,7 @@
 
 
 
-  <title>M2Crypto使用 | 千里一日还</title>
+  <title>M2Crypto使用 | 千里一日还先生</title>
   
 
 
@@ -155,7 +158,7 @@
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">千里一日还</span>
+        <span class="site-title">千里一日还先生</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -183,19 +186,9 @@
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-首页"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-home 首页"></i> <br />
             
             首页
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-about">
-          <a href="/about/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-关于"></i> <br />
-            
-            关于
           </a>
         </li>
       
@@ -203,7 +196,7 @@
         <li class="menu-item menu-item-tags">
           <a href="/tags/" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-标签"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-tags 标签"></i> <br />
             
             标签
           </a>
@@ -213,7 +206,7 @@
         <li class="menu-item menu-item-categories">
           <a href="/categories/" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-分类"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-th 分类"></i> <br />
             
             分类
           </a>
@@ -223,19 +216,19 @@
         <li class="menu-item menu-item-archives">
           <a href="/archives/" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-归档"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-archive 归档"></i> <br />
             
             归档
           </a>
         </li>
       
         
-        <li class="menu-item menu-item-commonweal">
-          <a href="/404/" rel="section">
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-公益404"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-user 关于"></i> <br />
             
-            公益404
+            关于
           </a>
         </li>
       
@@ -281,7 +274,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="千里一日还">
+      <meta itemprop="name" content="千里一日还先生">
     </span>
 
     
@@ -311,6 +304,28 @@
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python/" itemprop="url" rel="index">
+                    <span itemprop="name">python</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -556,6 +571,16 @@ file(&quot;fishcert2.pem&quot;, &quot;wb&quot;).write(cert.as_pem()) #保存文�
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/python/" rel="tag"><i class="fa fa-tag"></i> python</a>
+          
+            <a href="/tags/crypt/" rel="tag"><i class="fa fa-tag"></i> crypt</a>
+          
+            <a href="/tags/rsa/" rel="tag"><i class="fa fa-tag"></i> rsa</a>
+          
+        </div>
+      
 
       
       
@@ -585,6 +610,11 @@ file(&quot;fishcert2.pem&quot;, &quot;wb&quot;).write(cert.as_pem()) #保存文�
 
 
           
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="turbolento"></div>
+    </div>
 
   
 
@@ -645,13 +675,54 @@ file(&quot;fishcert2.pem&quot;, &quot;wb&quot;).write(cert.as_pem()) #保存文�
             
 
             
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
 
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
             
 
           </nav>
 
           
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
 
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Turbolento" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:jaln1025@126.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
           
 
           
@@ -695,7 +766,8 @@ file(&quot;fishcert2.pem&quot;, &quot;wb&quot;).write(cert.as_pem()) #保存文�
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
@@ -703,7 +775,11 @@ file(&quot;fishcert2.pem&quot;, &quot;wb&quot;).write(cert.as_pem()) #保存文�
 
   
 </div>
-
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
 
   <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
 
@@ -764,6 +840,9 @@ file(&quot;fishcert2.pem&quot;, &quot;wb&quot;).write(cert.as_pem()) #保存文�
 
 
 
+  
+  
+
 
 
 
@@ -798,6 +877,16 @@ file(&quot;fishcert2.pem&quot;, &quot;wb&quot;).write(cert.as_pem()) #保存文�
   
   
     <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/canvas_lines.min.js"></script>
   
 
 
@@ -847,6 +936,23 @@ file(&quot;fishcert2.pem&quot;, &quot;wb&quot;).write(cert.as_pem()) #保存文�
 
 
   
+    <div id="lv-container" data-id="city" data-uid="MTAyMC8zMjkwMi85NDYz">
+	<script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+	</script>
+    <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+    </div>
+  
 
 
 
@@ -877,6 +983,9 @@ file(&quot;fishcert2.pem&quot;, &quot;wb&quot;).write(cert.as_pem()) #保存文�
   
 
   
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.4"></script>
+
 
   
 
