@@ -79,16 +79,17 @@
 
 
 
-<meta name="description" content="谢繁华，绝交游，乐淡泊，甘寂寞">
-<meta property="og:type" content="website">
-<meta property="og:title" content="千里一日还">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="加解密数据、操作密钥、操作SSL协议普遍使用了OpenSSL。虽然还有其它的使用C/C++开发的加密处理库，但是Python环境下支持最好的使用最广泛的还是OpenSSL。  据python.org官方网站，目前有三个库提供了OpenSSL的包装。   PyOpenSSL。这个库是比较早的，但是作者已经停止开发，并且只支持SSL功能，而没有提供加密、解密、X509等功能的包装。  M2Crypto">
+<meta property="og:type" content="article">
+<meta property="og:title" content="M2Crypto使用">
+<meta property="og:url" content="http://yoursite.com/2018/01/03/M2Crypto使用/index.html">
 <meta property="og:site_name" content="千里一日还">
-<meta property="og:description" content="谢繁华，绝交游，乐淡泊，甘寂寞">
+<meta property="og:description" content="加解密数据、操作密钥、操作SSL协议普遍使用了OpenSSL。虽然还有其它的使用C/C++开发的加密处理库，但是Python环境下支持最好的使用最广泛的还是OpenSSL。  据python.org官方网站，目前有三个库提供了OpenSSL的包装。   PyOpenSSL。这个库是比较早的，但是作者已经停止开发，并且只支持SSL功能，而没有提供加密、解密、X509等功能的包装。  M2Crypto">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-01-03T05:49:29.478Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="千里一日还">
-<meta name="twitter:description" content="谢繁华，绝交游，乐淡泊，甘寂寞">
+<meta name="twitter:title" content="M2Crypto使用">
+<meta name="twitter:description" content="加解密数据、操作密钥、操作SSL协议普遍使用了OpenSSL。虽然还有其它的使用C/C++开发的加密处理库，但是Python环境下支持最好的使用最广泛的还是OpenSSL。  据python.org官方网站，目前有三个库提供了OpenSSL的包装。   PyOpenSSL。这个库是比较早的，但是作者已经停止开发，并且只支持SSL功能，而没有提供加密、解密、X509等功能的包装。  M2Crypto">
 
 
 
@@ -118,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/01/03/M2Crypto使用/"/>
 
 
 
 
 
-  <title>千里一日还</title>
+  <title>M2Crypto使用 | 千里一日还</title>
   
 
 
@@ -143,8 +144,7 @@
     
   
 
-  <div class="container sidebar-position-right 
-  page-home">
+  <div class="container sidebar-position-right page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -257,9 +257,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -289,9 +289,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/01/03/M2Crypto使用/" itemprop="url">M2Crypto使用</a></h1>
+          <h1 class="post-title" itemprop="name headline">M2Crypto使用</h1>
         
 
         <div class="post-meta">
@@ -341,9 +339,7 @@
       
 
       
-        
-          
-            <p>加解密数据、操作密钥、操作SSL协议普遍使用了OpenSSL。虽然还有其它的使用C/C++开发的加密处理库，但是Python环境下支持最好的使用最广泛的还是OpenSSL。 </p>
+        <p>加解密数据、操作密钥、操作SSL协议普遍使用了OpenSSL。虽然还有其它的使用C/C++开发的加密处理库，但是Python环境下支持最好的使用最广泛的还是OpenSSL。 </p>
 <p>据python.org官方网站，目前有三个库提供了OpenSSL的包装。 </p>
 <ol>
 <li>PyOpenSSL。这个库是比较早的，但是作者已经停止开发，并且只支持SSL功能，而没有提供加密、解密、X509等功能的包装。 </li>
@@ -546,8 +542,6 @@ cert.set_pubkey(req.get_pubkey()) #把证书请求内的公钥复制过来
 cert.sign(cakey, &quot;sha1&quot;) #使用CA的秘钥进行签名。 
 file(&quot;fishcert2.pem&quot;, &quot;wb&quot;).write(cert.as_pem()) #保存文件。 
 </code></pre>
-          
-        
       
     </div>
     
@@ -564,12 +558,12 @@ file(&quot;fishcert2.pem&quot;, &quot;wb&quot;).write(cert.as_pem()) #保存文�
       
 
       
+      
+      
 
       
 
       
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -579,10 +573,11 @@ file(&quot;fishcert2.pem&quot;, &quot;wb&quot;).write(cert.as_pem()) #保存文�
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -590,6 +585,10 @@ file(&quot;fishcert2.pem&quot;, &quot;wb&quot;).write(cert.as_pem()) #保存文�
 
 
           
+
+  
+
+
 
         </div>
         
@@ -610,8 +609,17 @@ file(&quot;fishcert2.pem&quot;, &quot;wb&quot;).write(cert.as_pem()) #保存文�
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -657,6 +665,22 @@ file(&quot;fishcert2.pem&quot;, &quot;wb&quot;).write(cert.as_pem()) #保存文�
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、如何使用MD5、SHA1等消息散列算法。"><span class="nav-number">1.</span> <span class="nav-text">一、如何使用MD5、SHA1等消息散列算法。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、使用对称加密算法加密数据。"><span class="nav-number">2.</span> <span class="nav-text">二、使用对称加密算法加密数据。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、-生成RSA密钥"><span class="nav-number">3.</span> <span class="nav-text">三、 生成RSA密钥</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#四、生成DSA密钥"><span class="nav-number">4.</span> <span class="nav-text">四、生成DSA密钥</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#五、载入DSA密钥与RSA密钥"><span class="nav-number">5.</span> <span class="nav-text">五、载入DSA密钥与RSA密钥</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#六、RSA类型的操作——使用RSA加密、解密、签名、认证；保存RSA密钥"><span class="nav-number">6.</span> <span class="nav-text">六、RSA类型的操作——使用RSA加密、解密、签名、认证；保存RSA密钥</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#七、一个小型的CA，电子证书。"><span class="nav-number">7.</span> <span class="nav-text">七、一个小型的CA，电子证书。</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -790,6 +814,10 @@ file(&quot;fishcert2.pem&quot;, &quot;wb&quot;).write(cert.as_pem()) #保存文�
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
