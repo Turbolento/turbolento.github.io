@@ -2,9 +2,30 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/about/index.html</loc>
+    
+    <lastmod>2018-01-03T09:50:12.019Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/tags/index.html</loc>
+    
+    <lastmod>2018-01-03T09:15:42.642Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/categories/index.html</loc>
+    
+    <lastmod>2018-01-03T09:15:14.755Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2018/01/03/M2Crypto%E4%BD%BF%E7%94%A8/</loc>
     
-    <lastmod>2018-01-03T08:26:43.434Z</lastmod>
+    <lastmod>2018-01-03T09:14:58.660Z</lastmod>
     
   </url>
   
@@ -12,27 +33,6 @@
     <loc>http://yoursite.com/404.html</loc>
     
     <lastmod>2018-01-03T06:25:05.238Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/about/index.html</loc>
-    
-    <lastmod>2018-01-03T05:51:25.478Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/categories/index.html</loc>
-    
-    <lastmod>2018-01-03T04:44:49.159Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/tags/index.html</loc>
-    
-    <lastmod>2018-01-03T04:43:29.300Z</lastmod>
     
   </url>
   
