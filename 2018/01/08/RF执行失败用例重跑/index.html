@@ -89,7 +89,7 @@
 <meta property="og:site_name" content="千里一日还先生">
 <meta property="og:description" content="本文通过修改RF源代码，增加命令pybot参数–retry N,以实现执行过程中，test级别的用例失败后自动再执行N次，或直到成功为止，生成的日志和报告文件中只记录最后一次执行结果。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-01-08T01:44:05.127Z">
+<meta property="og:updated_time" content="2018-01-08T01:46:21.697Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="&#39;RF执行失败用例重跑&#39;">
 <meta name="twitter:description" content="本文通过修改RF源代码，增加命令pybot参数–retry N,以实现执行过程中，test级别的用例失败后自动再执行N次，或直到成功为止，生成的日志和报告文件中只记录最后一次执行结果。">
@@ -356,15 +356,10 @@
       
         <p>本文通过修改RF源代码，增加命令pybot参数–retry N,以实现执行过程中，test级别的用例失败后自动再执行N次，或直到成功为止，生成的日志和报告文件中只记录最后一次执行结果。<br><a id="more"></a><br><strong>修改代码如下：</strong>  </p>
 <h4 id="1-robot-run-py"><a href="#1-robot-run-py" class="headerlink" title="1. robot/run.py"></a>1. robot/run.py</h4><p>修改USAGE文档，增加 -Z –retry retry&emsp;&emsp;&emsp;&emsp;Set the retry times if test failed.  </p>
-<h1 id="gt-Options"><a href="#gt-Options" class="headerlink" title="&gt;Options  "></a>&gt;Options  </h1><pre><code>&lt;span style=&quot;background:yellow&quot;&gt;-Z --retry retry&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;Set the retry times if test failed.&lt;/span&gt;  
- -N --name name&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;Set the name of the top level test suite. Underscores  
- &amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp; in the name are converted to spaces. Default name is  
-&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp; created from the name of the executed data source.  
--D --doc documentation&amp;emsp;&amp;emsp;&amp;emsp;&amp;nbsp; Set the documentation of the top level test suite.  
-&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp; Underscores in the documentation are converted to  
-&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp; spaces and it may also contain simple HTML formatting  
-&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp; (e.g. *bold* and http://url/).  
-</code></pre><p>增加导入模块  </p>
+<blockquote>
+<h1 id="Options"><a href="#Options" class="headerlink" title="Options  "></a>Options  </h1><p><span style="background:yellow">-Z –retry retry&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Set the retry times if test failed.</span><br>-N –name name&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Set the name of the top level test suite. Underscores<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; in the name are converted to spaces. Default name is<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; created from the name of the executed data source.<br>-D –doc documentation&emsp;&emsp;&emsp;&nbsp; Set the documentation of the top level test suite.<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; Underscores in the documentation are converted to<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; spaces and it may also contain simple HTML formatting<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; (e.g. <em>bold</em> and <a href="http://url/" target="_blank" rel="noopener">http://url/</a>). </p>
+</blockquote>
+<p>增加导入模块  </p>
 <pre><code>reload(sys)  
 sys.setdefaultencoding(&apos;UTF-8&apos;)
 from xml.dom import minidom
@@ -440,15 +435,10 @@ from xml.dom import minidom
         else:
             item.visit(visitor)
 </code></pre><h4 id="4-robotide-contrib-testrunner-usages-py"><a href="#4-robotide-contrib-testrunner-usages-py" class="headerlink" title="4. robotide\contrib\testrunner\usages.py"></a>4. robotide\contrib\testrunner\usages.py</h4><p>修改USAGE文档，增加 -Z –retry retry&emsp;&emsp;&emsp;&emsp;Set the retry times if test failed.这一段  </p>
-<h1 id="gt-Options-1"><a href="#gt-Options-1" class="headerlink" title="&gt;Options  "></a>&gt;Options  </h1><pre><code>&lt;span style=&quot;background:yellow&quot;&gt;-Z --retry retry&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;Set the retry times if test failed.&lt;/span&gt;  
- -N --name name&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;Set the name of the top level test suite. Underscores  
- &amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp; in the name are converted to spaces. Default name is  
-&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp; created from the name of the executed data source.  
--D --doc documentation&amp;emsp;&amp;emsp;&amp;emsp;&amp;nbsp; Set the documentation of the top level test suite.  
-&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp; Underscores in the documentation are converted to  
-&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp; spaces and it may also contain simple HTML formatting  
-&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp; (e.g. *bold* and http://url/). 
-</code></pre><p>最后使用 <code>pybot -Z 3 -t E:\autotest\test</code> 即可实现失败重跑功能。</p>
+<blockquote>
+<h1 id="Options-1"><a href="#Options-1" class="headerlink" title="Options  "></a>Options  </h1><p><span style="background:yellow">-Z –retry retry&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Set the retry times if test failed.</span><br>-N –name name&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Set the name of the top level test suite. Underscores<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; in the name are converted to spaces. Default name is<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; created from the name of the executed data source.<br>-D –doc documentation&emsp;&emsp;&emsp;&nbsp; Set the documentation of the top level test suite.<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; Underscores in the documentation are converted to<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; spaces and it may also contain simple HTML formatting<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; (e.g. <em>bold</em> and <a href="http://url/" target="_blank" rel="noopener">http://url/</a>). </p>
+</blockquote>
+<p>最后使用 <code>pybot -Z 3 -t E:\autotest\test</code> 即可实现失败重跑功能。</p>
 
       
     </div>
@@ -651,7 +641,7 @@ from xml.dom import minidom
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-robot-run-py"><span class="nav-number">1.</span> <span class="nav-text">1. robot/run.py</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#gt-Options"><span class="nav-number"></span> <span class="nav-text">&gt;Options  </span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-robot-conf-settings-py"><span class="nav-number">1.</span> <span class="nav-text">2. robot/conf/settings.py</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-robot-model-itemlist-py"><span class="nav-number">2.</span> <span class="nav-text">3. robot/model/itemlist.py</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-robotide-contrib-testrunner-usages-py"><span class="nav-number">3.</span> <span class="nav-text">4. robotide\contrib\testrunner\usages.py</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#gt-Options-1"><span class="nav-number"></span> <span class="nav-text">&gt;Options  </span></a></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-robot-run-py"><span class="nav-number">1.</span> <span class="nav-text">1. robot/run.py</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Options"><span class="nav-number"></span> <span class="nav-text">Options  </span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-robot-conf-settings-py"><span class="nav-number">1.</span> <span class="nav-text">2. robot/conf/settings.py</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-robot-model-itemlist-py"><span class="nav-number">2.</span> <span class="nav-text">3. robot/model/itemlist.py</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-robotide-contrib-testrunner-usages-py"><span class="nav-number">3.</span> <span class="nav-text">4. robotide\contrib\testrunner\usages.py</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Options-1"><span class="nav-number"></span> <span class="nav-text">Options  </span></a></div>
             
 
           </div>
