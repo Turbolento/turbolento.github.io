@@ -102,7 +102,7 @@
     root: '/',
     scheme: 'Muse',
     version: '5.1.4',
-    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    sidebar: {"position":"right","display":"always","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: true,
     tabs: true,
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
@@ -147,7 +147,7 @@
     
   
 
-  <div class="container sidebar-position-left page-post-detail">
+  <div class="container sidebar-position-right page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -186,9 +186,29 @@
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-home 主页"></i> <br />
             
             首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags 标签"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th 分类"></i> <br />
+            
+            分类
           </a>
         </li>
       
@@ -196,9 +216,19 @@
         <li class="menu-item menu-item-archives">
           <a href="/archives/" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-archive 归档"></i> <br />
             
             归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user 关于"></i> <br />
+            
+            关于
           </a>
         </li>
       
@@ -240,7 +270,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Turbolento">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/images/avatar.jpg">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -543,11 +573,11 @@ file(&quot;fishcert2.pem&quot;, &quot;wb&quot;).write(cert.as_pem()) #保存文�
       
         <div class="post-tags">
           
-            <a href="/tags/python/" rel="tag"># python</a>
+            <a href="/tags/python/" rel="tag"><i class="fa fa-tag"></i> python</a>
           
-            <a href="/tags/crypt/" rel="tag"># crypt</a>
+            <a href="/tags/crypt/" rel="tag"><i class="fa fa-tag"></i> crypt</a>
           
-            <a href="/tags/rsa/" rel="tag"># rsa</a>
+            <a href="/tags/rsa/" rel="tag"><i class="fa fa-tag"></i> rsa</a>
           
         </div>
       
@@ -598,6 +628,11 @@ file(&quot;fishcert2.pem&quot;, &quot;wb&quot;).write(cert.as_pem()) #保存文�
           
 
   
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zMjkwMi85NDYz"></div>
+    </div>
+
+  
 
 
 
@@ -633,6 +668,10 @@ file(&quot;fishcert2.pem&quot;, &quot;wb&quot;).write(cert.as_pem()) #保存文�
       <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Turbolento" />
             
               <p class="site-author-name" itemprop="name">Turbolento</p>
               <p class="site-description motion-element" itemprop="description">谢繁华，绝交游，乐淡泊，甘寂寞</p>
@@ -685,6 +724,22 @@ file(&quot;fishcert2.pem&quot;, &quot;wb&quot;).write(cert.as_pem()) #保存文�
           
 
           
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Turbolento" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:jaln1025@126.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
 
           
           
@@ -707,7 +762,7 @@ file(&quot;fishcert2.pem&quot;, &quot;wb&quot;).write(cert.as_pem()) #保存文�
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、如何使用MD5、SHA1等消息散列算法。"><span class="nav-number">1.</span> <span class="nav-text">一、如何使用MD5、SHA1等消息散列算法。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、使用对称加密算法加密数据。"><span class="nav-number">2.</span> <span class="nav-text">二、使用对称加密算法加密数据。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、-生成RSA密钥"><span class="nav-number">3.</span> <span class="nav-text">三、 生成RSA密钥</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#四、生成DSA密钥"><span class="nav-number">4.</span> <span class="nav-text">四、生成DSA密钥</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#五、载入DSA密钥与RSA密钥"><span class="nav-number">5.</span> <span class="nav-text">五、载入DSA密钥与RSA密钥</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#六、RSA类型的操作——使用RSA加密、解密、签名、认证；保存RSA密钥"><span class="nav-number">6.</span> <span class="nav-text">六、RSA类型的操作——使用RSA加密、解密、签名、认证；保存RSA密钥</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#七、一个小型的CA，电子证书。"><span class="nav-number">7.</span> <span class="nav-text">七、一个小型的CA，电子证书。</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、如何使用MD5、SHA1等消息散列算法。"><span class="nav-text">一、如何使用MD5、SHA1等消息散列算法。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、使用对称加密算法加密数据。"><span class="nav-text">二、使用对称加密算法加密数据。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、-生成RSA密钥"><span class="nav-text">三、 生成RSA密钥</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#四、生成DSA密钥"><span class="nav-text">四、生成DSA密钥</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#五、载入DSA密钥与RSA密钥"><span class="nav-text">五、载入DSA密钥与RSA密钥</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#六、RSA类型的操作——使用RSA加密、解密、签名、认证；保存RSA密钥"><span class="nav-text">六、RSA类型的操作——使用RSA加密、解密、签名、认证；保存RSA密钥</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#七、一个小型的CA，电子证书。"><span class="nav-text">七、一个小型的CA，电子证书。</span></a></li></ol></div>
             
 
           </div>
@@ -727,7 +782,10 @@ file(&quot;fishcert2.pem&quot;, &quot;wb&quot;).write(cert.as_pem()) #保存文�
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright"><i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>&copy; <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
@@ -735,9 +793,11 @@ file(&quot;fishcert2.pem&quot;, &quot;wb&quot;).write(cert.as_pem()) #保存文�
 
   
 </div>
+<!--
 
 
-  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+<div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
 
 
 
@@ -747,6 +807,7 @@ file(&quot;fishcert2.pem&quot;, &quot;wb&quot;).write(cert.as_pem()) #保存文�
 
   <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
 
+-->
 
 
 
@@ -792,6 +853,8 @@ file(&quot;fishcert2.pem&quot;, &quot;wb&quot;).write(cert.as_pem()) #保存文�
   
 
 
+  
+
 
 
 
@@ -830,6 +893,11 @@ file(&quot;fishcert2.pem&quot;, &quot;wb&quot;).write(cert.as_pem()) #保存文�
   
   
     <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
   
 
 
@@ -878,6 +946,17 @@ file(&quot;fishcert2.pem&quot;, &quot;wb&quot;).write(cert.as_pem()) #保存文�
 
 
 
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
   
 
 
