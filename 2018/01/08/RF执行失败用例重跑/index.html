@@ -186,7 +186,7 @@
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-home 首页"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-home 主页"></i> <br />
             
             首页
           </a>
@@ -512,7 +512,7 @@ from xml.dom import minidom
 
   
     <div class="comments" id="comments">
-      <div id="lv-container" data-id="city" data-uid="MTAyMC8zMjkwMi85NDYz"></div>
+      <div id="lv-container" data-id="city" data-uid="Mi8xLzM="></div>
     </div>
 
   
@@ -645,7 +645,7 @@ from xml.dom import minidom
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-robot-run-py"><span class="nav-number">1.</span> <span class="nav-text">1. robot/run.py</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Options"><span class="nav-number"></span> <span class="nav-text">Options  </span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-robot-conf-settings-py"><span class="nav-number">1.</span> <span class="nav-text">2. robot/conf/settings.py</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-robot-model-itemlist-py"><span class="nav-number">2.</span> <span class="nav-text">3. robot/model/itemlist.py</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-robotide-contrib-testrunner-usages-py"><span class="nav-number">3.</span> <span class="nav-text">4. robotide\contrib\testrunner\usages.py</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Options-1"><span class="nav-number"></span> <span class="nav-text">Options  </span></a></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-robot-run-py"><span class="nav-text">1. robot/run.py</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Options"><span class="nav-text">Options  </span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-robot-conf-settings-py"><span class="nav-text">2. robot/conf/settings.py</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-robot-model-itemlist-py"><span class="nav-text">3. robot/model/itemlist.py</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-robotide-contrib-testrunner-usages-py"><span class="nav-text">4. robotide\contrib\testrunner\usages.py</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Options-1"><span class="nav-text">Options  </span></a></div>
             
 
           </div>
@@ -666,7 +666,9 @@ from xml.dom import minidom
     <footer id="footer" class="footer">
       <div class="footer-inner">
         <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+<div class="copyright"><i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>&copy; <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
@@ -674,13 +676,11 @@ from xml.dom import minidom
 
   
 </div>
-<div class="powered-by">
-<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
-  本站访客数:<span id="busuanzi_value_site_uv"></span>
-</span>
-</div>
+<!--
 
-  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+<div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
 
 
 
@@ -690,6 +690,7 @@ from xml.dom import minidom
 
   <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
 
+-->
 
 
 
@@ -735,12 +736,11 @@ from xml.dom import minidom
   
 
 
-
-
-
-
   
-  
+
+
+
+
 
 
 
@@ -780,12 +780,7 @@ from xml.dom import minidom
 
   
   
-    <script type="text/javascript" src="/lib/three/three.min.js"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/three/canvas_lines.min.js"></script>
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
   
 
 
@@ -835,24 +830,16 @@ from xml.dom import minidom
 
 
   
-    <!-- 来必力City版安装代码 -->
-<div id="lv-container" data-id="city" data-uid="MTAyMC8zMjkwMi85NDYz">
-<script type="text/javascript">
-   (function(d, s) {
-       var j, e = d.getElementsByTagName(s)[0];
-
-       if (typeof LivereTower === 'function') { return; }
-
-       j = d.createElement(s);
-       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-       j.async = true;
-
-       e.parentNode.insertBefore(j, e);
-   })(document, 'script');
-</script>
-<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
-</div>
-<!-- City版安装代码已完成 -->
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
   
 
 
@@ -884,9 +871,6 @@ from xml.dom import minidom
   
 
   
-  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>
-  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.4"></script>
-
 
   
 

@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="record, study" />
 
 
 
@@ -185,7 +185,7 @@
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-home 首页"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-home 主页"></i> <br />
             
             首页
           </a>
@@ -358,7 +358,13 @@
         
           
           &emsp;&emsp;Python由于全局锁GIL的存在，无法享受多线程带来的性能提升。multiprocessing包采用子进程的技术避开了GIL，使用multiprocessing可以进行多进程编程提高程序效率。  
-multiprocessing.Process对象from multipro
+multiprocessing.Process对象from multiprocessing import Process
+
+#定义子进程处理函数
+def worker(a,b,c=3,d=6):
+    pass
+
+p = Process(target=worker,name
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -506,7 +512,7 @@ multiprocessing.Process对象from multipro
       
         
           
-          &emsp;&emsp;虽然手工测试用例的编写规则一般建议，用例之间要尽量避免关联性，测试点要尽量独立，但如果在自动化领域，考虑到自动化的执行效率，以及自动化数据流之间的关联性，这种建议往往比较难以实现。比如说，测试一个用户登录之后的某些功能，必须要先在环境中注册好一个用户，在自动化中可实现的方法有
+          &emsp;&emsp;虽然手工测试用例的编写规则一般建议，用例之间要尽量避免关联性，测试点要尽量独立，但如果在自动化领域，考虑到自动化的执行效率，以及自动化数据流之间的关联性，这种建议往往比较难以实现。比如说，测试一个用户登录之后的某些功能，必须要先在环境中注册好一个用户，在自动化中可实现的方法有两种：&emsp;&emsp;1. 将已注册的用户设置成全局变量放入到配置文件中，每次新环境执行自动化用例前，手工生成一个已注册用户，再将该用户信息写入配置文件中去；&emsp;&emsp;2. 单独
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -800,7 +806,11 @@ multiprocessing.Process对象from multipro
       
         
           
-          &emsp;&emsp;Markdown是一种可以使用普通文本编辑器编写的标记语言，通过简单的标记语法，它可以使普通文本内容具有一定的格式。&emsp;&emsp;Markdown的语法简洁明了、学习容易，而且功能比纯文本更强，因此有很多人用它写博客。世界上最流行的博客平台WordPress和大型C
+          &emsp;&emsp;Markdown是一种可以使用普通文本编辑器编写的标记语言，通过简单的标记语法，它可以使普通文本内容具有一定的格式。&emsp;&emsp;Markdown的语法简洁明了、学习容易，而且功能比纯文本更强，因此有很多人用它写博客。世界上最流行的博客平台WordPress和大型CMS如Joomla、Drupal都能很好的支持Markdown。完全采用Markdown编辑器的博客平台有Ghost和Typecho。
+
+软件：MarkdownPad  
+
+1.1 标题&emsp;&
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -951,7 +961,9 @@ multiprocessing.Process对象from multipro
           加解密数据、操作密钥、操作SSL协议普遍使用了OpenSSL。虽然还有其它的使用C/C++开发的加密处理库，但是Python环境下支持最好的使用最广泛的还是OpenSSL。 
 据python.org官方网站，目前有三个库提供了OpenSSL的包装。 
 
-PyOpenSSL。这个库是比较早的，但是作者
+PyOpenSSL。这个库是比较早的，但是作者已经停止开发，并且只支持SSL功能，而没有提供加密、解密、X509等功能的包装。 
+M2Crypto。完整支持OpenSSL。单元测试比较全面。在原有C语言API的基础上提供了Python的封装。 
+
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1126,7 +1138,9 @@ PyOpenSSL。这个库是比较早的，但是作者
     <footer id="footer" class="footer">
       <div class="footer-inner">
         <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+<div class="copyright"><i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>&copy; <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
@@ -1134,13 +1148,11 @@ PyOpenSSL。这个库是比较早的，但是作者
 
   
 </div>
-<div class="powered-by">
-<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
-  本站访客数:<span id="busuanzi_value_site_uv"></span>
-</span>
-</div>
+<!--
 
-  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+<div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
 
 
 
@@ -1150,6 +1162,7 @@ PyOpenSSL。这个库是比较早的，但是作者
 
   <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
 
+-->
 
 
 
@@ -1195,12 +1208,11 @@ PyOpenSSL。这个库是比较早的，但是作者
   
 
 
-
-
-
-
   
-  
+
+
+
+
 
 
 
@@ -1240,12 +1252,7 @@ PyOpenSSL。这个库是比较早的，但是作者
 
   
   
-    <script type="text/javascript" src="/lib/three/three.min.js"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/three/canvas_lines.min.js"></script>
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
   
 
 
@@ -1321,9 +1328,6 @@ PyOpenSSL。这个库是比较早的，但是作者
   
 
   
-  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>
-  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.4"></script>
-
 
   
 
