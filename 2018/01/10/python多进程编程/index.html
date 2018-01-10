@@ -102,7 +102,7 @@
     root: '/',
     scheme: 'Muse',
     version: '5.1.4',
-    sidebar: {"position":"right","display":"always","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: true,
     tabs: true,
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
@@ -147,7 +147,7 @@
     
   
 
-  <div class="container sidebar-position-right page-post-detail">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -186,29 +186,9 @@
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-home 主页"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
             首页
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-tags">
-          <a href="/tags/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags 标签"></i> <br />
-            
-            标签
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-categories">
-          <a href="/categories/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-th 分类"></i> <br />
-            
-            分类
           </a>
         </li>
       
@@ -216,19 +196,9 @@
         <li class="menu-item menu-item-archives">
           <a href="/archives/" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-archive 归档"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
             归档
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-about">
-          <a href="/about/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-user 关于"></i> <br />
-            
-            关于
           </a>
         </li>
       
@@ -270,7 +240,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Turbolento">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="image" content="/images/avatar.gif">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -588,9 +558,9 @@ if __name__ == &quot;__main__&quot;:
       
         <div class="post-tags">
           
-            <a href="/tags/python/" rel="tag"><i class="fa fa-tag"></i> python</a>
+            <a href="/tags/python/" rel="tag"># python</a>
           
-            <a href="/tags/multiprocessing/" rel="tag"><i class="fa fa-tag"></i> multiprocessing</a>
+            <a href="/tags/multiprocessing/" rel="tag"># multiprocessing</a>
           
         </div>
       
@@ -641,11 +611,6 @@ if __name__ == &quot;__main__&quot;:
           
 
   
-    <div class="comments" id="comments">
-      <div id="lv-container" data-id="city" data-uid="MTAyMC8zMjkwMi85NDYz"></div>
-    </div>
-
-  
 
 
 
@@ -681,10 +646,6 @@ if __name__ == &quot;__main__&quot;:
       <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-            
-              <img class="site-author-image" itemprop="image"
-                src="/images/avatar.jpg"
-                alt="Turbolento" />
             
               <p class="site-author-name" itemprop="name">Turbolento</p>
               <p class="site-description motion-element" itemprop="description">谢繁华，绝交游，乐淡泊，甘寂寞</p>
@@ -737,22 +698,6 @@ if __name__ == &quot;__main__&quot;:
           
 
           
-            <div class="links-of-author motion-element">
-                
-                  <span class="links-of-author-item">
-                    <a href="https://github.com/Turbolento" target="_blank" title="GitHub">
-                      
-                        <i class="fa fa-fw fa-github"></i>GitHub</a>
-                  </span>
-                
-                  <span class="links-of-author-item">
-                    <a href="mailto:jaln1025@126.com" target="_blank" title="E-Mail">
-                      
-                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
-                  </span>
-                
-            </div>
-          
 
           
           
@@ -775,7 +720,7 @@ if __name__ == &quot;__main__&quot;:
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#multiprocessing-Process对象"><span class="nav-text">multiprocessing.Process对象</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#将进程定义为类"><span class="nav-text">将进程定义为类</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#multiprocessing-Queue对象"><span class="nav-text">multiprocessing.Queue对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#multiprocessing-Pipe对象"><span class="nav-text">multiprocessing.Pipe对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#multiprocessing-Lock对象"><span class="nav-text">multiprocessing.Lock对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#multiprocessing-Value-和-multiprocessing-Array对象"><span class="nav-text">multiprocessing.Value 和 multiprocessing.Array对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#multiprocessing-Manager对象"><span class="nav-text">multiprocessing.Manager对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#multiprocessing-Pool对象"><span class="nav-text">multiprocessing.Pool对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#multiprocessing-Semaphore对象"><span class="nav-text">multiprocessing.Semaphore对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#multiprocessing-Event对象"><span class="nav-text">multiprocessing.Event对象</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#multiprocessing-Process对象"><span class="nav-number">1.</span> <span class="nav-text">multiprocessing.Process对象</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#将进程定义为类"><span class="nav-number">1.1.</span> <span class="nav-text">将进程定义为类</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#multiprocessing-Queue对象"><span class="nav-number">2.</span> <span class="nav-text">multiprocessing.Queue对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#multiprocessing-Pipe对象"><span class="nav-number">3.</span> <span class="nav-text">multiprocessing.Pipe对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#multiprocessing-Lock对象"><span class="nav-number">4.</span> <span class="nav-text">multiprocessing.Lock对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#multiprocessing-Value-和-multiprocessing-Array对象"><span class="nav-number">5.</span> <span class="nav-text">multiprocessing.Value 和 multiprocessing.Array对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#multiprocessing-Manager对象"><span class="nav-number">6.</span> <span class="nav-text">multiprocessing.Manager对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#multiprocessing-Pool对象"><span class="nav-number">7.</span> <span class="nav-text">multiprocessing.Pool对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#multiprocessing-Semaphore对象"><span class="nav-number">8.</span> <span class="nav-text">multiprocessing.Semaphore对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#multiprocessing-Event对象"><span class="nav-number">9.</span> <span class="nav-text">multiprocessing.Event对象</span></a></li></ol></div>
             
 
           </div>
@@ -795,10 +740,7 @@ if __name__ == &quot;__main__&quot;:
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<div class="copyright"><i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
-  本站访客数:<span id="busuanzi_value_site_uv"></span>
-</span>&copy; <span itemprop="copyrightYear">2018</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
@@ -806,11 +748,9 @@ if __name__ == &quot;__main__&quot;:
 
   
 </div>
-<!--
 
 
-<div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
-
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
 
 
 
@@ -820,7 +760,6 @@ if __name__ == &quot;__main__&quot;:
 
   <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
 
--->
 
 
 
@@ -866,8 +805,6 @@ if __name__ == &quot;__main__&quot;:
   
 
 
-  
-
 
 
 
@@ -906,11 +843,6 @@ if __name__ == &quot;__main__&quot;:
   
   
     <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
   
 
 
@@ -959,17 +891,6 @@ if __name__ == &quot;__main__&quot;:
 
 
 
-  
-    <script type="text/javascript">
-      (function(d, s) {
-        var j, e = d.getElementsByTagName(s)[0];
-        if (typeof LivereTower === 'function') { return; }
-        j = d.createElement(s);
-        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-        j.async = true;
-        e.parentNode.insertBefore(j, e);
-      })(document, 'script');
-    </script>
   
 
 
