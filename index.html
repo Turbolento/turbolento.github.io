@@ -358,13 +358,7 @@
         
           
           &emsp;&emsp;Python由于全局锁GIL的存在，无法享受多线程带来的性能提升。multiprocessing包采用子进程的技术避开了GIL，使用multiprocessing可以进行多进程编程提高程序效率。  
-multiprocessing.Process对象from multiprocessing import Process
-
-#定义子进程处理函数
-def worker(a,b,c=3,d=6):
-    pass
-
-p = Process(target=worker,name
+multiprocessing.Process对象from multipro
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -512,7 +506,7 @@ p = Process(target=worker,name
       
         
           
-          &emsp;&emsp;虽然手工测试用例的编写规则一般建议，用例之间要尽量避免关联性，测试点要尽量独立，但如果在自动化领域，考虑到自动化的执行效率，以及自动化数据流之间的关联性，这种建议往往比较难以实现。比如说，测试一个用户登录之后的某些功能，必须要先在环境中注册好一个用户，在自动化中可实现的方法有两种：&emsp;&emsp;1. 将已注册的用户设置成全局变量放入到配置文件中，每次新环境执行自动化用例前，手工生成一个已注册用户，再将该用户信息写入配置文件中去；&emsp;&emsp;2. 单独
+          &emsp;&emsp;虽然手工测试用例的编写规则一般建议，用例之间要尽量避免关联性，测试点要尽量独立，但如果在自动化领域，考虑到自动化的执行效率，以及自动化数据流之间的关联性，这种建议往往比较难以实现。比如说，测试一个用户登录之后的某些功能，必须要先在环境中注册好一个用户，在自动化中可实现的方法有
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -806,11 +800,7 @@ p = Process(target=worker,name
       
         
           
-          &emsp;&emsp;Markdown是一种可以使用普通文本编辑器编写的标记语言，通过简单的标记语法，它可以使普通文本内容具有一定的格式。&emsp;&emsp;Markdown的语法简洁明了、学习容易，而且功能比纯文本更强，因此有很多人用它写博客。世界上最流行的博客平台WordPress和大型CMS如Joomla、Drupal都能很好的支持Markdown。完全采用Markdown编辑器的博客平台有Ghost和Typecho。
-
-软件：MarkdownPad  
-
-1.1 标题&emsp;&
+          &emsp;&emsp;Markdown是一种可以使用普通文本编辑器编写的标记语言，通过简单的标记语法，它可以使普通文本内容具有一定的格式。&emsp;&emsp;Markdown的语法简洁明了、学习容易，而且功能比纯文本更强，因此有很多人用它写博客。世界上最流行的博客平台WordPress和大型C
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -961,9 +951,7 @@ p = Process(target=worker,name
           加解密数据、操作密钥、操作SSL协议普遍使用了OpenSSL。虽然还有其它的使用C/C++开发的加密处理库，但是Python环境下支持最好的使用最广泛的还是OpenSSL。 
 据python.org官方网站，目前有三个库提供了OpenSSL的包装。 
 
-PyOpenSSL。这个库是比较早的，但是作者已经停止开发，并且只支持SSL功能，而没有提供加密、解密、X509等功能的包装。 
-M2Crypto。完整支持OpenSSL。单元测试比较全面。在原有C语言API的基础上提供了Python的封装。 
-
+PyOpenSSL。这个库是比较早的，但是作者
           ...
           <!--noindex-->
           <div class="post-button text-center">
