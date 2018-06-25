@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-01-10T05:16:37.785Z</updated>
+  <updated>2018-06-25T09:15:40.217Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>test</title>
+    <link href="http://yoursite.com/2018/06/25/test/"/>
+    <id>http://yoursite.com/2018/06/25/test/</id>
+    <published>2018-06-25T09:14:41.000Z</published>
+    <updated>2018-06-25T09:15:40.217Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Hello-World"><a href="#Hello-World" class="headerlink" title="Hello World"></a>Hello World</h1><ol><li>fddfas</li><li>fsdjaoi</li><li>fadsfjoi </li><li>dfas fdsa </li><li>fads </li><li>fads </li><li>fads </li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;Hello-World&quot;&gt;&lt;a href=&quot;#Hello-World&quot; class=&quot;headerlink&quot; title=&quot;Hello World&quot;&gt;&lt;/a&gt;Hello World&lt;/h1&gt;&lt;ol&gt;
+&lt;li&gt;fddfas&lt;/li&gt;
+&lt;li&gt;fsdjaoi&lt;/li&gt;
+      
+    
+    </summary>
+    
+      <category term="c" scheme="http://yoursite.com/categories/c/"/>
+    
+    
+      <category term="t" scheme="http://yoursite.com/tags/t/"/>
+    
+  </entry>
   
   <entry>
     <title>python多进程编程</title>
