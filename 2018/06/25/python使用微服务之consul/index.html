@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="python,consul," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="千里一日还先生" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="安装python-consul模块：pip install python-consul    1. 注册服务&amp;emsp;&amp;emsp;使用/v1/agent/service/register这个HTTP APi来进行注册，注册的目标consul主机，可以是server，也可以是client，端口是8500。如果非本地主机注册，则需要目标主机启动consul时加上-client 目标访问ip，否则无">
+<meta name="keywords" content="python,consul">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python使用微服务之consul">
+<meta property="og:url" content="http://yoursite.com/2018/06/25/python使用微服务之consul/index.html">
+<meta property="og:site_name" content="千里一日还先生">
+<meta property="og:description" content="安装python-consul模块：pip install python-consul    1. 注册服务&amp;emsp;&amp;emsp;使用/v1/agent/service/register这个HTTP APi来进行注册，注册的目标consul主机，可以是server，也可以是client，端口是8500。如果非本地主机注册，则需要目标主机启动consul时加上-client 目标访问ip，否则无">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-06-26T01:58:16.240Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="python使用微服务之consul">
+<meta name="twitter:description" content="安装python-consul模块：pip install python-consul    1. 注册服务&amp;emsp;&amp;emsp;使用/v1/agent/service/register这个HTTP APi来进行注册，注册的目标consul主机，可以是server，也可以是client，端口是8500。如果非本地主机注册，则需要目标主机启动consul时加上-client 目标访问ip，否则无">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"always","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/06/25/python使用微服务之consul/"/>
+
+
+
+
+
+  <title>python使用微服务之consul | 千里一日还先生</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">千里一日还先生</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home 主页"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags 标签"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th 分类"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive 归档"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user 关于"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/25/python使用微服务之consul/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Turbolento">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千里一日还先生">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">python使用微服务之consul</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-25T20:04:24+08:00">
+                2018-06-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python/" itemprop="url" rel="index">
+                    <span itemprop="name">python</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python/consul/" itemprop="url" rel="index">
+                    <span itemprop="name">consul</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>安装python-consul模块：<code>pip install python-consul</code>  </p>
+</blockquote>
+<h4 id="1-注册服务"><a href="#1-注册服务" class="headerlink" title="1. 注册服务"></a>1. 注册服务</h4><p>&emsp;&emsp;使用<code>/v1/agent/service/register</code>这个HTTP APi来进行注册，注册的目标consul主机，可以是server，也可以是client，端口是8500。如果非本地主机注册，则需要目标主机启动consul时加上<code>-client 目标访问ip</code>，否则无法远程访问。 代码如下：  </p>
+<pre><code>#coding=utf-8
+import urllib2,json
+
+register_url = &quot;http://%s:8500/v1/agent/service/register&quot;%&quot;localhost&quot;
+register_data = {
+                    &quot;id&quot;: &quot;serviceID&quot;,                #服务ID，每个datacenter中唯一
+                    &quot;name&quot;: &quot;serviceName&quot;,            #服务名称，服务表示
+                    &quot;address&quot;: &quot;10.x.x.x&quot;,            #服务提供者的IP
+                    &quot;port&quot;: 8080,                    #服务提供者的端口
+                    &quot;tags&quot;: [&quot;dev&quot;],
+                    &quot;checks&quot;: [{&quot;http&quot;: &quot;http://localhost:8080/check&quot;,&quot;interval&quot;: &quot;5s&quot;}]
+                }
+request = urllib2.Request(register_url,data=json.dumps(register_data))
+request.add_header(&apos;Content-Type&apos;, &apos;application/json&apos;)
+request.get_method = lambda: &apos;PUT&apos;
+urllib2.urlopen(request)
+</code></pre><h4 id="2-删除服务"><a href="#2-删除服务" class="headerlink" title="2. 删除服务"></a>2. 删除服务</h4><p>&emsp;&emsp;使用<code>/v1/agent/service/deregister/[serviceID]</code>这个HTTP API来删除服务。删除和注册必须要在同一台consul主机上进行，不能通过A主机注册，又通过B主机删除。但发起注册和发起删除服务的主机可以不同。代码如下：</p>
+<pre><code># coding=utf-8
+import urllib2
+
+deregister_service_url = &apos;http://%s:8500/v1/agent/service/deregister/serviceID&apos;%&quot;localhost&quot;
+request = urllib2.Request(deregister_service_url)
+request.add_header(&apos;Content-Type&apos;, &apos;application/json&apos;)
+request.get_method = lambda: &apos;PUT&apos;
+urllib2.urlopen(request)
+</code></pre><h4 id="3-获取Consul服务列表"><a href="#3-获取Consul服务列表" class="headerlink" title="3.获取Consul服务列表"></a>3.获取Consul服务列表</h4><p>&emsp;&emsp;consul中没有注册中心的概念，一般是通过consul client进行服务注册和服务发现，这台用来服务注册和服务发现的主机就是一个Agent,生成一个Agent的代码为<code>agent = consul.Consul(host=&#39;172.30.1.71&#39;, port=&quot;8500&quot;)</code>。列出某个agent上可供访问到的所有服务(即当前agent所在datacenter中的所有服务)的代码如下：</p>
+<pre><code># coding=utf-8
+from consul import Consul
+
+def getAllService(agent):   #agent = Consul(host=&apos;172.30.1.71&apos;, port=&quot;8500&quot;)
+    newestIndex,services = agent.catalog.services()            #(&apos;23452&apos;, {u&apos;test&apos;: [u&apos;dev&apos;], u&apos;consul&apos;: [], u&apos;mockPlatform&apos;: []})       ==&gt;{&apos;服务名1&apos;：[tag1,tag2,...],...}
+    servicesList = services.keys()
+    servicesList.remove(&apos;consul&apos;)           #排除掉名称为&apos;consul&apos;的服务,为server端自带服务
+    return servicesList
+</code></pre><h4 id="4-获取服务"><a href="#4-获取服务" class="headerlink" title="4. 获取服务"></a>4. 获取服务</h4><p>&emsp;&emsp;查找指定服务的服务提供者，并返回访问速度最快的主机。代码如下：</p>
+<pre><code># coding=utf-8
+from consul import Consul
+import re,requests
+
+def getConnectTime(url):
+    return requests.head(url).elapsed.total_seconds()
+
+def getService(agent,name):  # 负载均衡获取服务实例agent = Consul(host=&apos;172.30.1.71&apos;, port=&quot;8500&quot;)
+    newestIndex, nodeList = agent.catalog.service(name)
+    if not nodeList:
+        raise Exception(&apos;There is no service: [%s] can be used!&apos;%name)
+    dcset = set()  # DataCenter 集合 初始化
+    for service in nodeList:
+        dcset.add(service.get(&apos;Datacenter&apos;))
+    serviceList = []  # 服务列表 初始化
+    for dc in dcset:
+        newestIndex,healthNodeList =agent.health.service(name,dc=dc,passing=True)
+        for serv in healthNodeList:
+            node = serv.get(&apos;Node&apos;).get(&quot;Node&quot;)
+            healthNodeList = agent.health.checks(name)[1]
+            for i in healthNodeList:
+                if i.get(&apos;Node&apos;)!= node:
+                    continue
+                else:
+                    health_output = i.get(&apos;Output&apos;)
+                    health = re.search(r&apos;HTTP GET (http:.*): 2.*&apos;,health_output).group(1)
+            address = serv.get(&apos;Service&apos;).get(&apos;Address&apos;)
+            port = serv.get(&apos;Service&apos;).get(&apos;Port&apos;)
+            serviceList.append({&apos;address&apos;: address,&apos;port&apos;: port,&apos;health&apos;:health})
+    if len(serviceList) == 0:
+        raise Exception(&apos;no serveice can be used&apos;)
+    else:
+        ret = ()
+        fastest = None
+        for s in serviceList:
+            health = s.get(&apos;health&apos;)
+            http_conn_time = getConnectTime(health)
+            if not fastest:
+                fastest = http_conn_time
+                ret = (s[&apos;address&apos;], int(s[&apos;port&apos;]))
+            else:
+                if http_conn_time&lt;fastest:
+                    ret = (s[&apos;address&apos;], int(s[&apos;port&apos;]))
+        return ret
+</code></pre><h4 id="5-consul提供的所有HTTP-API"><a href="#5-consul提供的所有HTTP-API" class="headerlink" title="5.consul提供的所有HTTP API"></a>5.consul提供的所有HTTP API</h4><p>&emsp;&emsp;所有的endpoints主要分为以下类别：<br>&emsp;&emsp;&emsp;&emsp;<strong>kv</strong> - Key/Value存储<br>&emsp;&emsp;&emsp;&emsp;<strong>agent</strong> - Agent控制<br>&emsp;&emsp;&emsp;&emsp;<strong>catalog</strong> - 管理nodes和services<br>&emsp;&emsp;&emsp;&emsp;<strong>health</strong> - 管理健康监测<br>&emsp;&emsp;&emsp;&emsp;<strong>session</strong> - Session操作<br>&emsp;&emsp;&emsp;&emsp;<strong>acl</strong> - ACL创建和管理event - 用户Events<br>&emsp;&emsp;&emsp;&emsp;<strong>status</strong> - Consul系统状态  </p>
+<pre><code>agent endpoints：  (agent endpoints用来和本地agent进行交互，一般用来服务注册和检查注册，支持以下接口)
+    /v1/agent/checks :                          返回本地agent注册的所有检查(包括配置文件和HTTP接口)
+    /v1/agent/services :                        返回【本地agent注册】的所有 服务。注意！！只能是本地注册的服务
+    /v1/agent/members :                         返回agent在集群的gossip pool中看到的成员
+    /v1/agent/self :                            返回本地agent的配置和成员信息
+    /v1/agent/join/&lt;address&gt; :                  触发本地agent加入node
+    /v1/agent/force-leave/&lt;node&gt;:               强制删除node
+    /v1/agent/check/register :                  在本地agent增加一个检查项，使用PUT方法传输一个json格式的数据
+    /v1/agent/check/deregister/&lt;checkID&gt; :      注销一个本地agent的检查项
+    /v1/agent/check/pass/&lt;checkID&gt; :            设置一个本地检查项的状态为passing
+    /v1/agent/check/warn/&lt;checkID&gt; :            设置一个本地检查项的状态为warning
+    /v1/agent/check/fail/&lt;checkID&gt; :            设置一个本地检查项的状态为critical
+    /v1/agent/service/register :                在本地agent增加一个新的服务项，使用PUT方法传输一个json格式的数据
+    /v1/agent/service/deregister/&lt;serviceID&gt; :  注销一个本地agent的服务项,用PUT请求Consul 的这个deregister接口，附上服务id就可以成功注销掉服务了（注意是服务实例的id，不是服务名
+
+catalog endpoints：  (catalog endpoints用来注册/注销nodes、services、checks)
+    /v1/catalog/register :                      Registers a new node, service, or check
+    /v1/catalog/deregister :                    Deregisters a node, service, or check
+    /v1/catalog/datacenters :                   Lists known datacenters
+    /v1/catalog/nodes :                         Lists nodes in a given DC
+    /v1/catalog/services :                      Lists services in a given DC
+    /v1/catalog/service/&lt;service&gt; :             Lists the nodes in a given service
+    /v1/catalog/node/&lt;node&gt; :                   Lists the services provided by a node
+
+health endpoints：     (health endpoints用来查询健康状况相关信息，该功能从catalog中单独分离出来)
+    /v1/healt/node/&lt;node&gt;:                         返回node所定义的检查，可用参数dc=
+    /v1/health/checks/&lt;service&gt;:                 返回和服务相关联的检查，可用参数dc=
+    /v1/health/service/&lt;service&gt;:                 返回给定datacenter中给定node中service
+    /v1/health/state/&lt;state&gt;:                     返回给定datacenter中指定状态的服务，state可以是&quot;any&quot;, &quot;unknown&quot;, &quot;passing&quot;, &quot;warning&quot;, or &quot;critical&quot;，可用参数dc=
+
+session endpoints：     (session endpoints用来create、update、destory、query sessions)
+    /v1/session/create:                     Creates a new session
+    /v1/session/destroy/&lt;session&gt;:          Destroys a given session
+    /v1/session/info/&lt;session&gt;:             Queries a given session
+    /v1/session/node/&lt;node&gt;:                Lists sessions belonging to a node
+    /v1/session/list:                       Lists all the active sessions
+
+acl endpoints：        (acl endpoints用来create、update、destory、query acl)
+    /v1/acl/create:                         Creates a new token with policy
+    /v1/acl/update:                         Update the policy of a token
+    /v1/acl/destroy/&lt;id&gt;:                   Destroys a given token
+    /v1/acl/info/&lt;id&gt;:                      Queries the policy of a given token
+    /v1/acl/clone/&lt;id&gt;:                     Creates a new token by cloning an existing token
+    /v1/acl/list:                           Lists all the active tokens
+
+status endpoints：    (status endpoints用来或者consul 集群的信息)
+    /v1/status/leader :                     返回当前集群的Raft leader
+    /v1/status/peers :                         返回当前集群中同事  
+</code></pre>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/python/" rel="tag"><i class="fa fa-tag"></i> python</a>
+          
+            <a href="/tags/consul/" rel="tag"><i class="fa fa-tag"></i> consul</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/10/python多进程编程/" rel="next" title="python多进程编程">
+                <i class="fa fa-chevron-left"></i> python多进程编程
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zMjkwMi85NDYz"></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Turbolento" />
+            
+              <p class="site-author-name" itemprop="name">Turbolento</p>
+              <p class="site-description motion-element" itemprop="description">谢繁华，绝交游，乐淡泊，甘寂寞</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Turbolento" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:jaln1025@126.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-注册服务"><span class="nav-text">1. 注册服务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-删除服务"><span class="nav-text">2. 删除服务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-获取Consul服务列表"><span class="nav-text">3.获取Consul服务列表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-获取服务"><span class="nav-text">4. 获取服务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-consul提供的所有HTTP-API"><span class="nav-text">5.consul提供的所有HTTP API</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright"><i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Turbolento</span>
+
+  
+</div>
+<!--
+
+
+<div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+-->
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
