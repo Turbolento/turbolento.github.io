@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="前端,vue.js," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="千里一日还先生" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="&amp;emsp;&amp;emsp;提到Vue.js,都会提到MVVM架构，那么什么是MVVM呢？MVVM可以拆分成：View — ViewModel — Model三部分，如下图：那么我们怎么理解MVVM呢？上图中，左侧的View相当于我们的DOM内容，我们所看到的页面视图，右侧的Model相当于我们的数据对象，比如一个对象的信息：    {name:”张三”,age:21,}    而中间的监控者就负责监">
+<meta name="keywords" content="前端,vue.js">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vue.js学习总结（1）">
+<meta property="og:url" content="http://yoursite.com/2018/06/26/vue.js学习总结（1）/index.html">
+<meta property="og:site_name" content="千里一日还先生">
+<meta property="og:description" content="&amp;emsp;&amp;emsp;提到Vue.js,都会提到MVVM架构，那么什么是MVVM呢？MVVM可以拆分成：View — ViewModel — Model三部分，如下图：那么我们怎么理解MVVM呢？上图中，左侧的View相当于我们的DOM内容，我们所看到的页面视图，右侧的Model相当于我们的数据对象，比如一个对象的信息：    {name:”张三”,age:21,}    而中间的监控者就负责监">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/upload/mvvm.jpg">
+<meta property="og:updated_time" content="2018-06-26T11:32:39.176Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="vue.js学习总结（1）">
+<meta name="twitter:description" content="&amp;emsp;&amp;emsp;提到Vue.js,都会提到MVVM架构，那么什么是MVVM呢？MVVM可以拆分成：View — ViewModel — Model三部分，如下图：那么我们怎么理解MVVM呢？上图中，左侧的View相当于我们的DOM内容，我们所看到的页面视图，右侧的Model相当于我们的数据对象，比如一个对象的信息：    {name:”张三”,age:21,}    而中间的监控者就负责监">
+<meta name="twitter:image" content="http://yoursite.com/upload/mvvm.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"always","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/06/26/vue.js学习总结（1）/"/>
+
+
+
+
+
+  <title>vue.js学习总结（1） | 千里一日还先生</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">千里一日还先生</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home 主页"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags 标签"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th 分类"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive 归档"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user 关于"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/26/vue.js学习总结（1）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Turbolento">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千里一日还先生">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">vue.js学习总结（1）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-26T10:46:51+08:00">
+                2018-06-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/vue-js/" itemprop="url" rel="index">
+                    <span itemprop="name">vue.js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&emsp;&emsp;提到Vue.js,都会提到MVVM架构，那么什么是MVVM呢？MVVM可以拆分成：View — ViewModel — Model三部分，如下图：<br><img src="/upload/mvvm.jpg" alt="imgName"><br>那么我们怎么理解MVVM呢？<br>上图中，左侧的View相当于我们的DOM内容，我们所看到的页面视图，右侧的Model相当于我们的数据对象，比如一个对象的信息：  </p>
+<blockquote>
+<p>{<br>name:”张三”,<br>age:21,<br>}  </p>
+</blockquote>
+<p>而中间的监控者就负责监控两侧的数据，并相对应地通知另一侧进行修改。比如：你在Model层中修改了name的值为：“李四”，那么View视图层显示的“张三”也会自动变成了“李四”，而这个过程就是有ViewModel来操作的，不需要你手动地去写代码去实现（你不用再手动操作DOM了）。</p>
+<p>那么如何快速创建一个vue.js应用呢？  </p>
+<h3 id="1-创建应用"><a href="#1-创建应用" class="headerlink" title="1.创建应用"></a>1.创建应用</h3><p>&emsp;&emsp;使用<code>vue-cli</code>工具配合webpack构建工具创建，依次执行如下命令：  </p>
+<pre><code>//安装vue-cli  (若未安装vue-cli)
+    cnpm install --global vue-cli
+//创建应用myproject
+    vue init webpack myproject
+//安装所需node依赖包
+    cd myproject
+    npm init
+</code></pre><h3 id="2-运行应用-dev环境"><a href="#2-运行应用-dev环境" class="headerlink" title="2.运行应用(dev环境)"></a>2.运行应用(dev环境)</h3><p>&emsp;&emsp;在项目目录下，执行命令<code>npm run dev</code>,直到控制台显示<code>Your application is running here: http://localhost:8080</code>，表示应用创建成功，访问<a href="http://localhost:8080" target="_blank" rel="noopener">http://localhost:8080</a>即可查看。  </p>
+<h3 id="3-目录介绍"><a href="#3-目录介绍" class="headerlink" title="3. 目录介绍"></a>3. 目录介绍</h3><pre><code>projectName
+    |--build
+           |--build.js(生产环境构建) / webpack.back.conf.js(配置webpack，增加Jquery) / webpack.dev.conf.js(添加模拟API返回数据)
+    |--config
+           |--index.js / dev.env.js / prod.env.js / test.env.js        (index.js配置静态路径相对位置，绑定主机指定IP、端口，关闭Eslint检测useEslint: false，）
+    |--src
+           |--assets
+                |--css / fonts / image / js        (静态文件目录)
+           |--components
+                |--自建vue文件        (由&lt;template&gt;&lt;script&gt;&lt;style&gt;三部分组成）
+           |--router
+                |--index.js            (路由配置，路由模式，history模式去掉url中的#号)
+           |--App.vue                (根组件，配置router-view，根据路由不同展示不同组件)
+           |--main.js                (引入vue框架，定义vue实例，绑定vue实例(#el)到index.html的DOM元素中去，引入根组件，引入路由）
+    |--index.html                    (主页内容)
+</code></pre><h3 id="4-应用编译"><a href="#4-应用编译" class="headerlink" title="4. 应用编译"></a>4. 应用编译</h3><p>&emsp;&emsp;在项目目录下，执行命令<code>npm run build</code>,编译完成后，在应用目录下生成<code>dist</code>文件夹，部署时只用到该文件夹即可。<br>&emsp;&emsp;默认生成的<code>index.html</code>在<code>dist</code>根目录下，若使用Nginx部署应用，则只需要配置如下：<br><pre>location ~<em> / {<br>    root /path/to/dist;                    // 将/path/to/dist修改为dist实际路径即可<br>    index login.html index.html;<br>    try_files $uri $uri/ /myproject/;<br>}</em></pre><br>若需要将站点访问的uri加上一个统一前缀，比如加上<code>/myproject</code>后，<code><a href="http://localhost:8080/login.html" target="_blank" rel="noopener">http://localhost:8080/login.html</a></code>变成<code><a href="http://localhost:8080/myproject/login.html" target="_blank" rel="noopener">http://localhost:8080/myproject/login.html</a></code>，此时如果直接访问则会提404，那么该如何处理呢？<br>&emsp;&emsp;最开始想到的办法是，修改<code>nginx.conf</code>，将<code>location ~ /</code>修改为<code>location ~* /myproject/</code>，结果发现实际请求的本地路径前面都会加上/myproject，所以这种方式不行。后来通过实践，要实现这种要求，可以有两种方式：<br>&emsp;&emsp;a) 在dist目录下新增一个目录myproject,并将<code>index.html</code>移动到这个目录下，这个时候访问就正常了。<br>&emsp;&emsp;b) 修改项目路径下<code>/config/index.js</code>文件，修改<code>build:index</code>里面的<code>../dist/index.html</code>为<code>../dist/project/index.html</code></p>
+
+
+
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/前端/" rel="tag"><i class="fa fa-tag"></i> 前端</a>
+          
+            <a href="/tags/vue-js/" rel="tag"><i class="fa fa-tag"></i> vue.js</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/06/25/python使用微服务之consul/" rel="next" title="python使用微服务之consul">
+                <i class="fa fa-chevron-left"></i> python使用微服务之consul
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/06/28/vue.js学习总结（2）/" rel="prev" title="vue.js学习总结（2）">
+                vue.js学习总结（2） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zMjkwMi85NDYz"></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Turbolento" />
+            
+              <p class="site-author-name" itemprop="name">Turbolento</p>
+              <p class="site-description motion-element" itemprop="description">谢繁华，绝交游，乐淡泊，甘寂寞</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Turbolento" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:jaln1025@126.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-创建应用"><span class="nav-text">1.创建应用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-运行应用-dev环境"><span class="nav-text">2.运行应用(dev环境)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-目录介绍"><span class="nav-text">3. 目录介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-应用编译"><span class="nav-text">4. 应用编译</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright"><i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Turbolento</span>
+
+  
+</div>
+<!--
+
+
+<div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+-->
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
