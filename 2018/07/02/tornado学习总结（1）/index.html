@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="python,tornado,webServer," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="千里一日还先生" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="这篇文章主要记录Tornado基本知识，以后知识点忘了可做查询用。Tornado大体上可以被分为4个主要部分：     web框架（包括创建web应用的RequestHandler类，还有很多其他支持的类）   HTTP客户端和服务端实现 （HTTPServer、AsyncHTTPClient) 异步网络库（IOLoop、IOStream），为HTTP组件提供构建模块，也可以用来实现其他协议 携程">
+<meta name="keywords" content="python,tornado,webServer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="tornado学习总结（1）">
+<meta property="og:url" content="http://yoursite.com/2018/07/02/tornado学习总结（1）/index.html">
+<meta property="og:site_name" content="千里一日还先生">
+<meta property="og:description" content="这篇文章主要记录Tornado基本知识，以后知识点忘了可做查询用。Tornado大体上可以被分为4个主要部分：     web框架（包括创建web应用的RequestHandler类，还有很多其他支持的类）   HTTP客户端和服务端实现 （HTTPServer、AsyncHTTPClient) 异步网络库（IOLoop、IOStream），为HTTP组件提供构建模块，也可以用来实现其他协议 携程">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-07-02T03:12:46.207Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="tornado学习总结（1）">
+<meta name="twitter:description" content="这篇文章主要记录Tornado基本知识，以后知识点忘了可做查询用。Tornado大体上可以被分为4个主要部分：     web框架（包括创建web应用的RequestHandler类，还有很多其他支持的类）   HTTP客户端和服务端实现 （HTTPServer、AsyncHTTPClient) 异步网络库（IOLoop、IOStream），为HTTP组件提供构建模块，也可以用来实现其他协议 携程">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"always","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/07/02/tornado学习总结（1）/"/>
+
+
+
+
+
+  <title>tornado学习总结（1） | 千里一日还先生</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">千里一日还先生</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home 主页"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags 标签"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th 分类"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive 归档"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user 关于"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/02/tornado学习总结（1）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Turbolento">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千里一日还先生">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">tornado学习总结（1）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-02T09:49:30+08:00">
+                2018-07-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/tornado/" itemprop="url" rel="index">
+                    <span itemprop="name">tornado</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>这篇文章主要记录Tornado基本知识，以后知识点忘了可做查询用。Tornado大体上可以被分为4个主要部分：   </p>
+<ul>
+<li>web框架（包括创建web应用的<code>RequestHandler</code>类，还有很多其他支持的类）  </li>
+<li>HTTP客户端和服务端实现 （HTTPServer、AsyncHTTPClient)</li>
+<li>异步网络库（IOLoop、IOStream），为HTTP组件提供构建模块，也可以用来实现其他协议</li>
+<li>携程库（tornado.gen)，允许异步代码写的更直接而不用链式回调的方式  </li>
+</ul>
+<hr>
+<h3 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h3><ol>
+<li><h5 id="定义urls-并将urls绑定到处理类："><a href="#定义urls-并将urls绑定到处理类：" class="headerlink" title="定义urls,并将urls绑定到处理类："></a>定义urls,并将urls绑定到处理类：</h5><p> <code>app = tornado.web.Application(handlers=[(r&quot;/&quot;,IndexHandler)])</code><br> Application可以接受更多的配置项：  </p>
+<pre><code>settings=dict(
+    template_path = os.path.join(os.path.dirname(__file__),&quot;templates&quot;),
+    static_path = os.path.join(os.path.dirname(__file__),&quot;statics&quot;),
+    debug = False,
+    cookie_secret = base64.b64encode(uuid.uuid4().bytes + uuid.uuid4().bytes),              #用来使用get_secure_cookie方法
+    xsrf_cookies = False,
+    login_url = &apos;/mockServer/login&apos;
+)
+urls = [(r&quot;/&quot;,IndexHandler)]
+application = tornado.web.Application(handlers=urls,**settings)  
+</code></pre></li>
+<li><h5 id="绑定app-包含各种url信息-到http-server："><a href="#绑定app-包含各种url信息-到http-server：" class="headerlink" title="绑定app(包含各种url信息)到http_server："></a>绑定app(包含各种url信息)到http_server：</h5><p> <code>http_server = tornado.httpserver.HTTPServer(app)</code>  </p>
+</li>
+<li><h5 id="启动server监听（指定端口）："><a href="#启动server监听（指定端口）：" class="headerlink" title="启动server监听（指定端口）："></a>启动server监听（指定端口）：</h5><p> <code>http_server.listen(options.port)</code>  </p>
+</li>
+<li><h5 id="加入到循环事务中-并启动事务："><a href="#加入到循环事务中-并启动事务：" class="headerlink" title="加入到循环事务中,并启动事务："></a>加入到循环事务中,并启动事务：</h5><p> <code>tornado.ioloop.IOLoop.instance().start()</code>  </p>
+</li>
+<li><h5 id="处理类IndexHandler继承自tornado-web-RequestHandler-需要覆盖其get或post等方法。写内容到网页可以用：-self-write-字符串-，或者self-render-模版文件-key1-value1-模版文件中使用来引用对象-value1可以是list等复杂类型"><a href="#处理类IndexHandler继承自tornado-web-RequestHandler-需要覆盖其get或post等方法。写内容到网页可以用：-self-write-字符串-，或者self-render-模版文件-key1-value1-模版文件中使用来引用对象-value1可以是list等复杂类型" class="headerlink" title="处理类IndexHandler继承自tornado.web.RequestHandler,需要覆盖其get或post等方法。写内容到网页可以用： self.write(字符串)，或者self.render(模版文件,key1=value1),模版文件中使用来引用对象,value1可以是list等复杂类型"></a>处理类IndexHandler继承自tornado.web.RequestHandler,需要覆盖其get或post等方法。写内容到网页可以用： self.write(字符串)，或者self.render(模版文件,key1=value1),模版文件中使用来引用对象,value1可以是list等复杂类型</h5></li>
+<li><h5 id="RequestHandler类有读写cookie的方法："><a href="#RequestHandler类有读写cookie的方法：" class="headerlink" title="RequestHandler类有读写cookie的方法："></a>RequestHandler类有读写cookie的方法：</h5><p> <code>set_cookie()</code> / <code>get_cookie()</code><br> 使用更安全的方式：<code>set_secure_cookie()</code>   /    <code>get_secure_cookie()</code>  ，此时需要在Application的setting中增加如下设置：<br> <code>cookie_secret = base64.b64encode(uuid.uuid4().bytes + uuid.uuid4().bytes)</code><br> （<code>set_secure_cookie</code>中加上<code>httponly=True, secure=True</code>更加安全）<br> 清理指定cookie：<code>clear_cookie(&#39;指定名称&#39;)</code></p>
+</li>
+<li><h5 id="开启-XSRF-保护："><a href="#开启-XSRF-保护：" class="headerlink" title="开启 XSRF 保护："></a>开启 XSRF 保护：</h5><p> a) 在Application的setting中增加如下设置：<code>xsrf_cookies = True</code><br> b) 在模板文件中的表单里面加入如下标记：</p>
+<pre><code>{% raw xsrf_form_html () %}
+</code></pre><p> c) 在ajax中增加标记：</p>
+<pre><code>function getCookie(name){
+    var x = document.cookie.match(&quot;\\b&quot; + name + &quot;=([^;]*)\\b&quot;);
+    return x ? x[1]:undefined;
+}
+
+$(document).ready(function(){
+    $(&quot;#login&quot;).click(function(){
+        var user = $(&quot;#username&quot;).val();
+        var pwd = $(&quot;#password&quot;).val();
+        var pd = {&quot;username&quot;:user, &quot;password&quot;:pwd, &quot;_xsrf&quot;:getCookie(&quot;_xsrf&quot;)};
+        $.ajax({
+            type:&quot;post&quot;,
+            url:&quot;/&quot;,
+            async:true,
+            data:pd,
+            cache:false,
+            success:function(data){
+                window.location.href = &quot;/user?user=&quot;+data;
+            },
+            error:function(){
+                alert(&quot;error!&quot;);
+            },
+        });
+    });
+});  
+</code></pre></li>
+<li><h5 id="json和python对象互相转换："><a href="#json和python对象互相转换：" class="headerlink" title="json和python对象互相转换："></a>json和python对象互相转换：</h5><p> <code>tornado.escape.json_encode</code>(python对象)==&gt;json字符串<br> <code>tornado.escape.json_decode</code>(json字符串)==&gt;python对象<br> 它们与json 模块中的 dump()、load()功能相仿。  </p>
+</li>
+<li><h5 id="用户认证："><a href="#用户认证：" class="headerlink" title="用户认证："></a>用户认证：</h5><p> a) 具体的Handler的get方法加装饰器：<code>@tornado.web.authenticated</code><br> b) 可以使用<code>self.current_user</code>变量获取当前用户<br> c) a/b中的用法实际都会调用当前Handler类的<code>get_current_user</code>方法，所以前提是需要重载<code>get_current_user</code>方法，才可以使用。一般编写<code>BaseHandler(tornado.web.RequestHandler)</code>基类，里面实现<code>get_current_user</code>方法的重载，然后其他类继承自BaseHandler类<br> d) 若当前用户不存在（即<code>get_current_user</code>返回None时），使用调用装饰器或者<code>current_user</code>变量的时候，会寻找Application里setting的<code>login_url</code>指定的路径  </p>
+</li>
+<li><h5 id="异步与阻塞："><a href="#异步与阻塞：" class="headerlink" title="异步与阻塞："></a>异步与阻塞：</h5><p>【异步阻塞】  </p>
+<pre><code>a) 设置异步函数结束后不断开服务器连接，使用`@tornado.web.asynchronous`装饰器。(原理是设置`_auto_finish`值为False,直到执行到`self.finish()`才关闭连接)  
+b) 使用`tornado.ioloop.IOLoop.instance().add_timeout(time.time() + 17, callback=self.on_response)` 设置超时时间，以及所要执行的回调函数  
+C) 编写回调函数，并在函数最后加上`self.finish()`调用  
+
+    class SleepHandler(BaseHandler):
+        @tornado.web.asynchronous
+        def get(self):
+            tornado.ioloop.IOLoop.instance().add_timeout(time.time() + 17, callback=self.on_response)
+        def on_response(self):
+            self.render(&quot;sleep.html&quot;)
+            self.finish()  
+    =======另一种写法=========  
+    class SleepHandler(tornado.web.RequestHandler):
+        @tornado.gen.coroutine
+        def get(self):
+            yield tornado.gen.Task(tornado.ioloop.IOLoop.instance().add_timeout, time.time() + 17)
+            #yield tornado.gen.sleep(17)
+            self.render(&quot;sleep.html&quot;)
+</code></pre><p>【异步非阻塞】  </p>
+<pre><code>python2.7需要安装concurrent模块：`@tornado.concurrent.run_on_executor`  
+
+TIMEOUT = 30
+MAX_WORKERS = 50
+
+class BaseHandler(tornado.web.RequestHandler):
+    executor = ThreadPoolExecutor(max_workers=MAX_WORKERS)  
+</code></pre></li>
+<li><h5 id="异步函数编写："><a href="#异步函数编写：" class="headerlink" title="异步函数编写："></a>异步函数编写：</h5><pre><code>@tornado.gen.coroutine  
+def sleep(self):
+    yield tornado.gen.sleep(10)
+    raise tornado.gen.Return(&apos;hello world!&apos;)
+</code></pre></li>
+<li><h5 id="完整实例："><a href="#完整实例：" class="headerlink" title="完整实例："></a>完整实例：</h5><pre><code>#coding=utf-8
+
+import tornado.httpserver
+import tornado.ioloop
+import tornado.options
+import tornado.web
+
+from tornado.options import define,options
+
+define(&quot;port&quot;,default=8000,help=&quot;run on the given port&quot;,type=int)
+
+class IndexHandler(tornado.web.RequestHandler):
+    def get(self):
+        greeting = self.get_argument(&apos;greeting&apos;,&apos;Hello&apos;)        #get_argument返回的是unicode编码
+        self.write(greeting+&apos;,world!&apos;)
+
+if __name__==&quot;__main__&quot;:
+    tornado.options.parse_command_line()
+    app = tornado.web.Application(handlers=[(r&quot;/&quot;,IndexHandler)])
+    http_server = tornado.httpserver.HTTPServer(app)
+    http_server.listen(options.port)
+    tornado.ioloop.IOLoop.instance().start()  
+</code></pre><p>•    <strong>tornado.httpserver</strong>：这个模块就是用来解决 web 服务器的 http 协议问题，它提供了不少属性方法，实现客户端和服务器端的互通。Tornado 的非阻塞、单线程的特点在这个模块中体现。<br>•    <strong>tornado.ioloop</strong>：这个也非常重要，能够实现非阻塞 socket 循环，不能互通一次就结束呀。<br>•    <strong>tornado.options</strong>：这是命令行解析模块，也常用到。执行终端help命令时出现的提示。<br>•    <strong>tornado.web</strong>：这是必不可少的模块，它提供了一个简单的 Web 框架与异步功能，从而使其扩展到大量打开的连接，使其成为理想的长轮询。  </p>
+</li>
+<li><h5 id="模版："><a href="#模版：" class="headerlink" title="模版："></a>模版：</h5><p>1） for循环:  </p>
+<pre><code>{% for i in key1 %}
+    {{i[0]}}
+{% end %}
+</code></pre><p>2） 书写python表达式：<br>&emsp;&emsp;使用双括号：<code>7</code><br>3) 调试模板：</p>
+<pre><code>from tornado.template import Template
+print Template(&quot;{{ 'python'[0:2] }}&quot;).generate()    #输出py  
+</code></pre><p>4) 编写python语句：for,if,try，while等,可以多层嵌套  </p>
+<pre><code>{% 语句 %}
+    ....
+{% end %}
+</code></pre><p>5) 设置变量：<code></code><br>6) 对变量x不进行html转义：    </p>
+<pre><code>{% raw x %}  
+</code></pre><p>7) 常用模板函数：  </p>
+<pre><code>escape(s)：替换字符串 s 中的 &amp;、&lt;、&gt; 为他们对应的 HTML 字符。
+url_escape(s)：使用 urllib.quote_plus 替换字符串 s 中的字符为 URL 编码形式。
+json_encode(val)：将 val 编码成 JSON 格式。
+squeeze(s)：过滤字符串 s，把连续的多个空白字符替换成一个空格。  
+</code></pre></li>
+<li><h5 id="模板继承："><a href="#模板继承：" class="headerlink" title="模板继承："></a>模板继承：</h5><p>1） 父模板：</p>
+<pre><code>{% block 继承块名称 %}
+    默认内容
+{% end %}
+</code></pre><p>2） 子模板：</p>
+<pre><code>{% extends "base.html" %}
+{% block 继承块名称 %}
+    更新内容
+{% end %}
+</code></pre></li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/python/" rel="tag"><i class="fa fa-tag"></i> python</a>
+          
+            <a href="/tags/tornado/" rel="tag"><i class="fa fa-tag"></i> tornado</a>
+          
+            <a href="/tags/webServer/" rel="tag"><i class="fa fa-tag"></i> webServer</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/06/28/vue-js全局消息组件/" rel="next" title="vue.js全局消息组件">
+                <i class="fa fa-chevron-left"></i> vue.js全局消息组件
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/07/02/tornado学习总结（2）/" rel="prev" title="tornado学习总结（2）">
+                tornado学习总结（2） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zMjkwMi85NDYz"></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Turbolento" />
+            
+              <p class="site-author-name" itemprop="name">Turbolento</p>
+              <p class="site-description motion-element" itemprop="description">谢繁华，绝交游，乐淡泊，甘寂寞</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Turbolento" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:jaln1025@126.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#基础知识"><span class="nav-text">基础知识</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#定义urls-并将urls绑定到处理类："><span class="nav-text">定义urls,并将urls绑定到处理类：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#绑定app-包含各种url信息-到http-server："><span class="nav-text">绑定app(包含各种url信息)到http_server：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#启动server监听（指定端口）："><span class="nav-text">启动server监听（指定端口）：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#加入到循环事务中-并启动事务："><span class="nav-text">加入到循环事务中,并启动事务：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#处理类IndexHandler继承自tornado-web-RequestHandler-需要覆盖其get或post等方法。写内容到网页可以用：-self-write-字符串-，或者self-render-模版文件-key1-value1-模版文件中使用来引用对象-value1可以是list等复杂类型"><span class="nav-text">处理类IndexHandler继承自tornado.web.RequestHandler,需要覆盖其get或post等方法。写内容到网页可以用： self.write(字符串)，或者self.render(模版文件,key1=value1),模版文件中使用来引用对象,value1可以是list等复杂类型</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#RequestHandler类有读写cookie的方法："><span class="nav-text">RequestHandler类有读写cookie的方法：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#开启-XSRF-保护："><span class="nav-text">开启 XSRF 保护：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#json和python对象互相转换："><span class="nav-text">json和python对象互相转换：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#用户认证："><span class="nav-text">用户认证：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#异步与阻塞："><span class="nav-text">异步与阻塞：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#异步函数编写："><span class="nav-text">异步函数编写：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#完整实例："><span class="nav-text">完整实例：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#模版："><span class="nav-text">模版：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#模板继承："><span class="nav-text">模板继承：</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright"><i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Turbolento</span>
+
+  
+</div>
+<!--
+
+
+<div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+-->
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
