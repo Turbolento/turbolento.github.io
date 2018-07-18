@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Robot Framework," />
+  <meta name="keywords" content="python,加密算法," />
 
 
 
@@ -81,18 +81,18 @@
 
 
 
-<meta name="description" content="&amp;emsp;&amp;emsp;本文通过修改RF源代码，增加命令pybot参数–retry N,以实现执行过程中，test级别的用例失败后自动再执行N次，或直到成功为止，生成的日志和报告文件中只记录最后一次执行结果。">
-<meta name="keywords" content="Robot Framework">
+<meta name="description" content="需要用到的模块有系统自带的hashlib、base64、hmac，以及 第三方模块pyCrypto 1、MD5加密import hashlib def md5(data):     m = hashlib.md5()     m.update(data)     return m.hexdigest() 2、SHA256加密SHA256也称为HMAC_SHA256，hmac是Hash-based">
+<meta name="keywords" content="python,加密算法">
 <meta property="og:type" content="article">
-<meta property="og:title" content="RF执行失败用例重跑">
-<meta property="og:url" content="http://yoursite.com/2018/01/08/RF执行失败用例重跑/index.html">
+<meta property="og:title" content="python实现常用加密算法">
+<meta property="og:url" content="http://yoursite.com/2018/07/18/python实现常用加密算法/index.html">
 <meta property="og:site_name" content="千里一日还先生">
-<meta property="og:description" content="&amp;emsp;&amp;emsp;本文通过修改RF源代码，增加命令pybot参数–retry N,以实现执行过程中，test级别的用例失败后自动再执行N次，或直到成功为止，生成的日志和报告文件中只记录最后一次执行结果。">
+<meta property="og:description" content="需要用到的模块有系统自带的hashlib、base64、hmac，以及 第三方模块pyCrypto 1、MD5加密import hashlib def md5(data):     m = hashlib.md5()     m.update(data)     return m.hexdigest() 2、SHA256加密SHA256也称为HMAC_SHA256，hmac是Hash-based">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-06-25T11:25:30.000Z">
+<meta property="og:updated_time" content="2018-07-18T02:16:32.964Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="RF执行失败用例重跑">
-<meta name="twitter:description" content="&amp;emsp;&amp;emsp;本文通过修改RF源代码，增加命令pybot参数–retry N,以实现执行过程中，test级别的用例失败后自动再执行N次，或直到成功为止，生成的日志和报告文件中只记录最后一次执行结果。">
+<meta name="twitter:title" content="python实现常用加密算法">
+<meta name="twitter:description" content="需要用到的模块有系统自带的hashlib、base64、hmac，以及 第三方模块pyCrypto 1、MD5加密import hashlib def md5(data):     m = hashlib.md5()     m.update(data)     return m.hexdigest() 2、SHA256加密SHA256也称为HMAC_SHA256，hmac是Hash-based">
 
 
 
@@ -122,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/01/08/RF执行失败用例重跑/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/07/18/python实现常用加密算法/"/>
 
 
 
 
 
-  <title>RF执行失败用例重跑 | 千里一日还先生</title>
+  <title>python实现常用加密算法 | 千里一日还先生</title>
   
 
 
@@ -265,7 +265,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/08/RF执行失败用例重跑/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/18/python实现常用加密算法/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Turbolento">
@@ -282,7 +282,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">RF执行失败用例重跑</h1>
+          <h1 class="post-title" itemprop="name headline">python实现常用加密算法</h1>
         
 
         <div class="post-meta">
@@ -294,8 +294,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-08T09:06:34+08:00">
-                2018-01-08
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-18T09:15:22+08:00">
+                2018-07-18
               </time>
             
 
@@ -317,8 +317,19 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/自动化/" itemprop="url" rel="index">
-                    <span itemprop="name">自动化</span>
+                  <a href="/categories/python/" itemprop="url" rel="index">
+                    <span itemprop="name">python</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python/crypto/" itemprop="url" rel="index">
+                    <span itemprop="name">crypto</span>
                   </a>
                 </span>
 
@@ -354,92 +365,104 @@
       
 
       
-        <p>&emsp;&emsp;本文通过修改RF源代码，增加命令pybot参数–retry N,以实现执行过程中，test级别的用例失败后自动再执行N次，或直到成功为止，生成的日志和报告文件中只记录最后一次执行结果。<br><a id="more"></a><br><strong>修改代码如下：</strong>  </p>
-<h4 id="1-robot-run-py"><a href="#1-robot-run-py" class="headerlink" title="1. robot/run.py"></a>1. robot/run.py</h4><p>修改USAGE文档，增加 -Z –retry retry&emsp;&emsp;&emsp;&emsp;Set the retry times if test failed.  </p>
-<blockquote>
-<h1 id="Options"><a href="#Options" class="headerlink" title="Options  "></a>Options  </h1><p><span style="background:yellow">-Z –retry retry&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Set the retry times if test failed.</span><br>-N –name name&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Set the name of the top level test suite. Underscores<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; in the name are converted to spaces. Default name is<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; created from the name of the executed data source.<br>-D –doc documentation&emsp;&emsp;&emsp;&nbsp; Set the documentation of the top level test suite.<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; Underscores in the documentation are converted to<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; spaces and it may also contain simple HTML formatting<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; (e.g. <em>bold</em> and <a href="http://url/" target="_blank" rel="noopener">http://url/</a>). </p>
-</blockquote>
-<p>增加导入模块  </p>
-<pre><code>reload(sys)  
-sys.setdefaultencoding(&apos;UTF-8&apos;)
-from xml.dom import minidom
-</code></pre><p>RobotFramework类增加make方法  </p>
-<pre><code>def make(self,outxml):
-    xmldoc = minidom.parse(outxml)
-    suiteElementList = xmldoc.getElementsByTagName(&apos;suite&apos;)
-    mySuite = []
-    for suiteElement in suiteElementList:
-        if suiteElement.childNodes is not None:
-            for element in suiteElement.childNodes:
-                if element.nodeName == &apos;test&apos;:
-                    mySuite.append(suiteElement)
-                    break
-    for suite in mySuite:
-        testElements = {}
-        for element in suite.childNodes:
-            if element.nodeName == &apos;test&apos;:
-                name = element.getAttribute(&apos;name&apos;)
-                if testElements.get(name) == None:
-                    testElements.update({name:[element]})
-                else:
-                    testElements.get(name).append(element)
-        for n,el in testElements.iteritems():
-            for i in el[0:-1]:
-                textElement = i.nextSibling
-                suite.removeChild(i)
-                suite.removeChild(textElement)
-    savefile = open(outxml,&apos;w&apos;)
-    root = xmldoc.documentElement
-    root.writexml(savefile)
-    savefile.close()
-</code></pre><p>修改RobotFramework类的main方法，插入self.make(settings.output)这段</p>
-<pre><code>def main(self, datasources, **options):
-    settings = RobotSettings(options)
-    LOGGER.register_console_logger(**settings.console_output_config)
-    LOGGER.info(&apos;Settings:\n%s&apos; % unic(settings))
-    suite = TestSuiteBuilder(settings[&apos;SuiteNames&apos;],
-                         settings[&apos;WarnOnSkipped&apos;]).build(*datasources)
-    suite.configure(**settings.suite_config)
-    if settings.pre_run_modifiers:
-        suite.visit(ModelModifier(settings.pre_run_modifiers,
-                              settings.run_empty_suite, LOGGER))
-    with pyloggingconf.robot_handler_enabled(settings.log_level):
-        result = suite.run(settings)
-        LOGGER.info(&quot;Tests execution ended. Statistics:\n%s&quot;
-                % result.suite.stat_message)
-        self.make(settings.output)                #增加这一行,去掉此注释
-        if settings.log or settings.report or settings.xunit:
-            writer = ResultWriter(settings.output if settings.log
-                              else result)
-            writer.write_results(settings.get_rebot_settings())
-    return result.return_code
-</code></pre><h4 id="2-robot-conf-settings-py"><a href="#2-robot-conf-settings-py" class="headerlink" title="2. robot/conf/settings.py"></a>2. robot/conf/settings.py</h4><p>修改_cli_opts字典，增加 ‘Retry’:(‘retry’,1)  </p>
-<pre><code>&apos;MonitorColors&apos;            : (&apos;monitorcolors&apos;, &apos;AUTO&apos;),
-&apos;StdOut&apos;                   : (&apos;stdout&apos;, None),
-&apos;StdErr&apos;                   : (&apos;stderr&apos;, None),
-&apos;XUnitSkipNonCritical&apos;  : (&apos;xunitskipnoncritical&apos;, False),
-&apos;Retry&apos;                    : (&apos;retry&apos;,1)}                #增加这一行,去掉此注释
-</code></pre><h4 id="3-robot-model-itemlist-py"><a href="#3-robot-model-itemlist-py" class="headerlink" title="3. robot/model/itemlist.py"></a>3. robot/model/itemlist.py</h4><p>修改visit方法如下:  </p>
-<pre><code>def visit(self, visitor):
-    for item in self:
-        if self.__module__ == &apos;robot.model.testcase&apos; and hasattr(visitor,&quot;_context&quot;):
-            testStatus = &apos;&apos;
-            for i in range(0,int(visitor._settings._opts[&apos;Retry&apos;])):
-                if testStatus != &apos;PASS&apos;:
-                    if item.name in visitor._executed_tests:
-                        visitor._executed_tests.pop(item.name)
-                    item.visit(visitor)
-                    testStatus = visitor._context.variables[&apos;${PREV_TEST_STATUS}&apos;]
-                else:
-                    break
-        else:
-            item.visit(visitor)
-</code></pre><h4 id="4-robotide-contrib-testrunner-usages-py"><a href="#4-robotide-contrib-testrunner-usages-py" class="headerlink" title="4. robotide\contrib\testrunner\usages.py"></a>4. robotide\contrib\testrunner\usages.py</h4><p>修改USAGE文档，增加 -Z –retry retry&emsp;&emsp;&emsp;&emsp;Set the retry times if test failed.这一段  </p>
-<blockquote>
-<h1 id="Options-1"><a href="#Options-1" class="headerlink" title="Options  "></a>Options  </h1><p><span style="background:yellow">-Z –retry retry&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Set the retry times if test failed.</span><br>-N –name name&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Set the name of the top level test suite. Underscores<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; in the name are converted to spaces. Default name is<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; created from the name of the executed data source.<br>-D –doc documentation&emsp;&emsp;&emsp;&nbsp; Set the documentation of the top level test suite.<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; Underscores in the documentation are converted to<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; spaces and it may also contain simple HTML formatting<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; (e.g. <em>bold</em> and <a href="http://url/" target="_blank" rel="noopener">http://url/</a>). </p>
-</blockquote>
-<p>最后使用 <code>pybot -Z 3 -t E:\autotest\test</code> 即可实现失败重跑功能。</p>
+        <pre><code>需要用到的模块有系统自带的hashlib、base64、hmac，以及
+第三方模块pyCrypto
+</code></pre><h4 id="1、MD5加密"><a href="#1、MD5加密" class="headerlink" title="1、MD5加密"></a>1、MD5加密</h4><pre><code>import hashlib
+def md5(data):
+    m = hashlib.md5()
+    m.update(data)
+    return m.hexdigest()
+</code></pre><h4 id="2、SHA256加密"><a href="#2、SHA256加密" class="headerlink" title="2、SHA256加密"></a>2、SHA256加密</h4><p>SHA256也称为HMAC_SHA256，hmac是Hash-based Message Authentication Code的简写，就是指哈希消息认证码，包含有很多种哈希加密算法，sha256是其中一种。</p>
+<pre><code>import hashlib,base64,hmac
+def hmac_sha256_encrypt(message,secret):
+    message = bytes(message).encode(&apos;utf-8&apos;)
+    secret = bytes(secret).encode(&apos;utf-8&apos;)
+    signature = base64.b64encode(hmac.new(secret, message, digestmod=hashlib.sha256).digest())
+    return signature
+</code></pre><h4 id="3、RSA加解密"><a href="#3、RSA加解密" class="headerlink" title="3、RSA加解密"></a>3、RSA加解密</h4><p>加密：  </p>
+<pre><code>from Crypto.Cipher import PKCS1_v1_5 as Cipher_pkcs1_v1_5
+from Crypto.PublicKey import RSA
+import base64,os
 
+def rsa_encrypt(message):
+    pem_path = os.path.join(os.path.dirname(os.path.dirname(__file__)),&quot;exts&quot;,&quot;public.pem&quot;)
+    with open(pem_path) as f:
+        key = f.read()
+        rsakey = RSA.importKey(key)
+        cipher = Cipher_pkcs1_v1_5.new(rsakey)
+        cipher_text = base64.b64encode(cipher.encrypt(message))
+    return cipher_text
+</code></pre><p>解密：  </p>
+<pre><code>from Crypto import Random
+from Crypto.Cipher import PKCS1_v1_5 as Cipher_pkcs1_v1_5
+from Crypto.PublicKey import RSA
+import base64,os
+
+def rsa_decrypt(encrypt_text):
+    pem_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), &quot;exts&quot;, &quot;private.pem&quot;)
+    # 伪随机数生成器
+    random_generator = Random.new().read
+    with open(pem_path) as f:
+        key = f.read()
+        rsakey = RSA.importKey(key)
+        cipher = Cipher_pkcs1_v1_5.new(rsakey)
+        text = cipher.decrypt(base64.b64decode(encrypt_text), random_generator)
+    return text
+</code></pre><h4 id="4、SHA1withRSA加密"><a href="#4、SHA1withRSA加密" class="headerlink" title="4、SHA1withRSA加密"></a>4、SHA1withRSA加密</h4><p>这种加密方式常用于一般接口中做签名校验  </p>
+<pre><code>import base64
+from Crypto.Signature import PKCS1_v1_5
+from Crypto.PublicKey import RSA
+from Crypto.Hash import SHA
+
+def sign(data,pem):
+    private_key = RSA.importKey(pem)
+    cipher = PKCS1_v1_5.new(private_key)
+    h = SHA.new(data)
+    signature = cipher.sign(h)
+    return base64.b64encode(signature)
+</code></pre><h4 id="5、AES加解密"><a href="#5、AES加解密" class="headerlink" title="5、AES加解密"></a>5、AES加解密</h4><p>CBC模式：</p>
+<pre><code>from Crypto.Cipher import AES
+import base64
+
+def AES_CBC_encrypt(data, password, iv):
+    BS = AES.block_size
+    pad = lambda s: s + (BS - len(s) % BS) * chr(BS - len(s) % BS)
+    cipher = AES.new(password.encode(&quot;utf-8&quot;), AES.MODE_CBC, iv.encode(&quot;utf-8&quot;))
+    data = cipher.encrypt(pad(data.encode(&quot;utf-8&quot;)))
+    return base64.b64encode(data)
+
+def AES_CBC_decrypt(data, password, iv):
+    iv = iv.encode(&quot;utf-8&quot;)
+    data = iv + base64.b64decode(data.decode(&quot;utf-8&quot;))
+    bs = AES.block_size
+    if len(data) &lt;= bs:
+        return data
+    unpad = lambda s: s[0:-ord(s[-1])]
+    iv = data[:bs]
+    cipher = AES.new(password.encode(&quot;utf-8&quot;), AES.MODE_CBC, iv)
+    data = unpad(cipher.decrypt(data[bs:]))
+    return data
+</code></pre><p>ECB模式：</p>
+<pre><code>from Crypto.Cipher import AES
+import base64
+
+def AES_ECB_encrypt(data, password=&quot;yyfax10086100861&quot;):
+    BS = AES.block_size
+    pad = lambda s: s + (BS - len(s) % BS) * chr(BS - len(s) % BS)
+    cipher = AES.new(password.encode(&quot;utf-8&quot;), AES.MODE_ECB)
+    data = cipher.encrypt(pad(data.encode(&quot;utf-8&quot;)))
+    return base64.b64encode(data)
+
+def AES_ECB_decrypt(data, password=&quot;yyfax10086100861&quot;):
+    data = &quot;0&quot;*16 + base64.b64decode(data.decode(&quot;utf-8&quot;))
+    bs = AES.block_size
+    if len(data) &lt;= bs:
+        return data
+    unpad = lambda s: s[0:-ord(s[-1])]
+    cipher = AES.new(password.encode(&quot;utf-8&quot;), AES.MODE_ECB)
+    data = unpad(cipher.decrypt(data[bs:]))
+    return data
+</code></pre>
       
     </div>
     
@@ -456,7 +479,9 @@ from xml.dom import minidom
       
         <div class="post-tags">
           
-            <a href="/tags/Robot-Framework/" rel="tag"><i class="fa fa-tag"></i> Robot Framework</a>
+            <a href="/tags/python/" rel="tag"><i class="fa fa-tag"></i> python</a>
+          
+            <a href="/tags/加密算法/" rel="tag"><i class="fa fa-tag"></i> 加密算法</a>
           
         </div>
       
@@ -469,8 +494,8 @@ from xml.dom import minidom
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/01/05/markdown基本语法/" rel="next" title="markdown基本语法">
-                <i class="fa fa-chevron-left"></i> markdown基本语法
+              <a href="/2018/07/02/tornado学习总结（2）/" rel="next" title="tornado学习总结（2）">
+                <i class="fa fa-chevron-left"></i> tornado学习总结（2）
               </a>
             
           </div>
@@ -478,10 +503,6 @@ from xml.dom import minidom
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/01/08/RF关联案例设置方法/" rel="prev" title="RF关联案例设置方法">
-                RF关联案例设置方法 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -645,7 +666,7 @@ from xml.dom import minidom
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-robot-run-py"><span class="nav-text">1. robot/run.py</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Options"><span class="nav-text">Options  </span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-robot-conf-settings-py"><span class="nav-text">2. robot/conf/settings.py</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-robot-model-itemlist-py"><span class="nav-text">3. robot/model/itemlist.py</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-robotide-contrib-testrunner-usages-py"><span class="nav-text">4. robotide\contrib\testrunner\usages.py</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Options-1"><span class="nav-text">Options  </span></a></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、MD5加密"><span class="nav-text">1、MD5加密</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、SHA256加密"><span class="nav-text">2、SHA256加密</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、RSA加解密"><span class="nav-text">3、RSA加解密</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4、SHA1withRSA加密"><span class="nav-text">4、SHA1withRSA加密</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5、AES加解密"><span class="nav-text">5、AES加解密</span></a></li></ol></div>
             
 
           </div>
