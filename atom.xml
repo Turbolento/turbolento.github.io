@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-07-18T02:16:32.964Z</updated>
+  <updated>2018-08-01T02:55:58.556Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,62 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>解决SQLAlchemy间隔长时间重连，提示MySQL server has gone away</title>
+    <link href="http://yoursite.com/2018/08/01/%E8%A7%A3%E5%86%B3SQLAlchemy%E9%97%B4%E9%9A%94%E9%95%BF%E6%97%B6%E9%97%B4%E9%87%8D%E8%BF%9E%EF%BC%8C%E6%8F%90%E7%A4%BAMySQL-server-has-gone-away/"/>
+    <id>http://yoursite.com/2018/08/01/解决SQLAlchemy间隔长时间重连，提示MySQL-server-has-gone-away/</id>
+    <published>2018-08-01T02:33:43.000Z</published>
+    <updated>2018-08-01T02:55:58.556Z</updated>
+    
+    <content type="html"><![CDATA[<p>在构建tornado应用，采用SQLAlchemy作为ORM是一个比较不错的选择。使用SQLAlchemy，一般第一步需要用create_engine创建engine，但在一段时间不使用engine的时候，下次连接时会提示[2006]MySQL server has gone away的错误！如下图：<br><img src="/upload/sqlalchemy_error1.png" alt="imgName"></p><p>解决方法：  </p><pre><code>from sqlalchemy import create_engine, eventfrom sqlalchemy.exc import DisconnectionErrordef checkout_listener(dbapi_con, con_record, con_proxy):    try:        try:            dbapi_con.ping(False)        except TypeError:            dbapi_con.ping()    except dbapi_con.OperationalError as exc:        if exc.args[0] in (2006, 2013, 2014, 2045, 2055):            raise DisconnectionError()        else:            raisedb_engine = create_engine(DATABASE_CONNECTION_INFO,                          pool_size=100,                          pool_recycle=3600)event.listen(db_engine, &apos;checkout&apos;, checkout_listener)</code></pre><blockquote><p>参考文档：<a href="http://discorporate.us/jek/talks/SQLAlchemy-EuroPython2010.pdf" target="_blank" rel="noopener">http://discorporate.us/jek/talks/SQLAlchemy-EuroPython2010.pdf</a></p></blockquote>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;在构建tornado应用，采用SQLAlchemy作为ORM是一个比较不错的选择。使用SQLAlchemy，一般第一步需要用create_engine创建engine，但在一段时间不使用engine的时候，下次连接时会提示[2006]MySQL server has gon
+      
+    
+    </summary>
+    
+      <category term="SQLAlchemy" scheme="http://yoursite.com/categories/SQLAlchemy/"/>
+    
+      <category term="问题记录" scheme="http://yoursite.com/categories/SQLAlchemy/%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/"/>
+    
+    
+      <category term="ORM" scheme="http://yoursite.com/tags/ORM/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>利用libsvm识别图形验证码</title>
+    <link href="http://yoursite.com/2018/07/23/%E5%88%A9%E7%94%A8libsvm%E8%AF%86%E5%88%AB%E5%9B%BE%E5%BD%A2%E9%AA%8C%E8%AF%81%E7%A0%81/"/>
+    <id>http://yoursite.com/2018/07/23/利用libsvm识别图形验证码/</id>
+    <published>2018-07-23T01:23:51.000Z</published>
+    <updated>2018-07-23T02:53:59.544Z</updated>
+    
+    <content type="html"><![CDATA[<p>&emsp;&emsp;IBSVM软件包是台湾大学林智仁(Chih-Jen Lin)博士等用C++实现的LIBSVM库，可以说是使用最方便的SVM训练工具[71]。可以解决分类问题(包括C-SVC、n-SVC)、回归问题(包括e-SVR、n-SVR)以及分布估计(one-class-SVM )等问题，提供了线性、多项式、径向基和S形函数四种常用的核函数供选择，可以有效地解决多类问题、交叉验证选择参数、对不平衡样本加权、多类问题的概率估计等。  </p><pre><code># coding:utf-8import urllib.requestimport cairosvg, cv2from svmutil import *from PIL import ImagecaptchaUrl = &quot;https://xxx.com&quot; + &quot;/server?model=captcha&amp;action=getCaptcha&quot;req = urllib.request.Request(captchaUrl)res = urllib.request.urlopen(req)svg = res.read()def svgToPng(svgSource, outputName):    cairosvg.svg2png(bytestring=svgSource, write_to=&quot;temp\\%s&quot; % outputName)def _get_dynamic_binary_image(tag):    im = cv2.imread(&quot;temp\\%s.png&quot;%tag)    im = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)  # 灰值化    # 二值化    th1 = cv2.adaptiveThreshold(im, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 21, 1)    cv2.imwrite(&quot;temp\\%s-binary.png&quot;%tag, th1)    return th1def corpCaptcha(tag):    image = cv2.imread(&quot;temp\\%s-binary.png&quot;%tag)    cv2.imwrite(&quot;temp\\%s_p1.png&quot;%tag, image[:, 10:40])    cv2.imwrite(&quot;temp\\%s_p2.png&quot;%tag, image[:, 30:60])    cv2.imwrite(&quot;temp\\%s_p3.png&quot;%tag, image[:, 55:85])    cv2.imwrite(&quot;temp\\%s_p4.png&quot;%tag, image[:, 80:110])def computeTestData(tag):    img1 = Image.open(&quot;temp\\%s_p1.png&quot;%tag)    img2 = Image.open(&quot;temp\\%s_p2.png&quot;%tag)    img3 = Image.open(&quot;temp\\%s_p3.png&quot;%tag)    img4 = Image.open(&quot;temp\\%s_p4.png&quot;%tag)    with open(&quot;temp\\%s_data.txt&quot;%tag,&quot;w&quot;) as f:        f.write(get_feature(img1,0)+&quot;\n&quot;)        f.write(get_feature(img2,0)+&quot;\n&quot;)        f.write(get_feature(img3,0)+&quot;\n&quot;)        f.write(get_feature(img4,0))def get_feature(img,label):    width, height = img.size    pixel_cnt_list = []    for y in range(height):        pix_cnt_x = 0        for x in range(width):            if img.getpixel((x, y)) == (0,0,0):  # 黑色点                pix_cnt_x += 1        pixel_cnt_list.append(pix_cnt_x)    for x in range(width):        pix_cnt_y = 0        for y in range(height):            if img.getpixel((x, y)) == (0,0,0):  # 黑色点                pix_cnt_y += 1        pixel_cnt_list.append(pix_cnt_y)    return &quot;%d &quot;%label+&quot; &quot;.join([&quot;%d:%s&quot;%(i,j) for i,j in enumerate(pixel_cnt_list,1)])def recognCaptcha(svg,tag):    svgToPng(svg, &quot;%s.png&quot;%tag)    _get_dynamic_binary_image(tag)    corpCaptcha(tag)    computeTestData(tag)    m = svm_load_model(&apos;captcha.model&apos;)  # 读取模型    y, x = svm_read_problem(&quot;temp\\%s_data.txt&quot;%tag)    p_label, p_acc, p_val = svm_predict(y, x, m)    return p_labeldef asciiDecode(codeList):    m =map(lambda x:chr(int(x)),codeList)    ret = []    for i in m:        ret.append(i)    return &quot;&quot;.join(ret)def learn(tag,rightCode,local):         #rightCode=[&quot;a&quot;,&quot;G&quot;]      local=[1,2]    with open(&quot;train_data.txt&quot;, &quot;a&quot;) as f:        for j,i in enumerate(local):            if rightCode[j]!=&quot;o&quot;:                img = Image.open(&quot;temp\\%s_p%d.png&quot; % (tag,i))                f.write(&quot;\n&quot;+get_feature(img, ord(rightCode[j])))    y,x = svm_read_problem(&quot;train_data.txt&quot;)    m = svm_train(y,x,&quot;-t 0 -c 4 -b 1&quot;)    svm_save_model(&apos;captcha.model&apos;, m)          #保存模型if __name__ == &apos;__main__&apos;:    args = sys.argv    if args[1]==&quot;test&quot;:        code = recognCaptcha(svg, &quot;xy&quot;)        print(asciiDecode(code))    elif args[1]==&quot;learn&quot;:        learn(&quot;xy&quot;, args[2], [1, 2, 3, 4])        m = svm_load_model(&apos;captcha.model&apos;)  # 读取模型        y, x = svm_read_problem(&quot;temp\\xy_data.txt&quot;)        p_label, p_acc, p_val = svm_predict(y, x, m)        print(asciiDecode(p_label))    elif args[1]==&quot;reload&quot;:        if len(args)&lt;3:            config = &quot;&quot;        else:            config = args[2:]        y, x = svm_read_problem(&quot;train_data.txt&quot;)        m = svm_train(y, x,config)                      #最优参数： -t 0 -c 4 -b 1        svm_save_model(&apos;captcha.model&apos;, m)  # 保存模型</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&amp;emsp;&amp;emsp;IBSVM软件包是台湾大学林智仁(Chih-Jen Lin)博士等用C++实现的LIBSVM库，可以说是使用最方便的SVM训练工具[71]。可以解决分类问题(包括C-SVC、n-SVC)、回归问题(包括e-SVR、n-SVR)以及分布估计(one-c
+      
+    
+    </summary>
+    
+      <category term="机器学习" scheme="http://yoursite.com/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+      <category term="python" scheme="http://yoursite.com/tags/python/"/>
+    
+      <category term="libsvm" scheme="http://yoursite.com/tags/libsvm/"/>
+    
+      <category term="验证码识别" scheme="http://yoursite.com/tags/%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB/"/>
+    
+  </entry>
   
   <entry>
     <title>python实现常用加密算法</title>
@@ -158,9 +214,9 @@
       <category term="vue.js" scheme="http://yoursite.com/categories/vue-js/"/>
     
     
-      <category term="前端" scheme="http://yoursite.com/tags/%E5%89%8D%E7%AB%AF/"/>
-    
       <category term="vue.js" scheme="http://yoursite.com/tags/vue-js/"/>
+    
+      <category term="前端" scheme="http://yoursite.com/tags/%E5%89%8D%E7%AB%AF/"/>
     
   </entry>
   
@@ -185,9 +241,9 @@
       <category term="vue.js" scheme="http://yoursite.com/categories/vue-js/"/>
     
     
-      <category term="前端" scheme="http://yoursite.com/tags/%E5%89%8D%E7%AB%AF/"/>
-    
       <category term="vue.js" scheme="http://yoursite.com/tags/vue-js/"/>
+    
+      <category term="前端" scheme="http://yoursite.com/tags/%E5%89%8D%E7%AB%AF/"/>
     
   </entry>
   
