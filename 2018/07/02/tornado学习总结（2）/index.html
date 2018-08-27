@@ -89,7 +89,7 @@
 <meta property="og:site_name" content="千里一日还先生">
 <meta property="og:description" content="&amp;emsp;&amp;emsp;上一篇介绍tornado使用的基本知识点，这篇文章介绍tornado关键概念，以及目前经过几个项目优化后所采用的项目结构。   1. 基础概念1.1异步&amp;emsp;&amp;emsp;即将进行的操作需要请求其它系统或其它函数去执行，而且当前主进程并不(立即)关心它们的执行结果，只是提供一个处理返回结果的函数入口给它们使用&amp;emsp;&amp;emsp;( eg.&amp;emsp;去书店买书，请老">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-07-02T05:48:15.755Z">
+<meta property="og:updated_time" content="2018-08-27T02:02:55.092Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="tornado学习总结（2）">
 <meta name="twitter:description" content="&amp;emsp;&amp;emsp;上一篇介绍tornado使用的基本知识点，这篇文章介绍tornado关键概念，以及目前经过几个项目优化后所采用的项目结构。   1. 基础概念1.1异步&amp;emsp;&amp;emsp;即将进行的操作需要请求其它系统或其它函数去执行，而且当前主进程并不(立即)关心它们的执行结果，只是提供一个处理返回结果的函数入口给它们使用&amp;emsp;&amp;emsp;( eg.&amp;emsp;去书店买书，请老">
@@ -423,7 +423,12 @@ define(&quot;port&quot;,default=8000,help=&quot;run on the given prot&quot;,type
 def main():
     tornado.options.parse_command_line()
     http_server = tornado.httpserver.HTTPServer(application,xheaders=True)
-    http_server.listen(options.port)
+
+    # http_server.listen(options.port)
+    #上面修改成下面可以使用多进程运行,windows下os.fork()无法执行，cpu数量为1
+    http_server.bind(options.port)
+    http_server.start(1)            #1指的是1个CPU进程，0表示根据CPU核心数量自动决定进程数量
+
     print &quot;Development server is running at http://127.0.0.1:%s&quot;%options.port
     print &quot;Quit the server with Control-C&quot;
     tornado.ioloop.IOLoop.instance().start()
