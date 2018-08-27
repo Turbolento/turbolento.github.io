@@ -89,7 +89,7 @@
 <meta property="og:site_name" content="千里一日还先生">
 <meta property="og:description" content="&amp;emsp;&amp;emsp;上一篇介绍tornado使用的基本知识点，这篇文章介绍tornado关键概念，以及目前经过几个项目优化后所采用的项目结构。   1. 基础概念1.1异步&amp;emsp;&amp;emsp;即将进行的操作需要请求其它系统或其它函数去执行，而且当前主进程并不(立即)关心它们的执行结果，只是提供一个处理返回结果的函数入口给它们使用&amp;emsp;&amp;emsp;( eg.&amp;emsp;去书店买书，请老">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-08-27T02:02:55.092Z">
+<meta property="og:updated_time" content="2018-08-27T02:06:16.211Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="tornado学习总结（2）">
 <meta name="twitter:description" content="&amp;emsp;&amp;emsp;上一篇介绍tornado使用的基本知识点，这篇文章介绍tornado关键概念，以及目前经过几个项目优化后所采用的项目结构。   1. 基础概念1.1异步&amp;emsp;&amp;emsp;即将进行的操作需要请求其它系统或其它函数去执行，而且当前主进程并不(立即)关心它们的执行结果，只是提供一个处理返回结果的函数入口给它们使用&amp;emsp;&amp;emsp;( eg.&amp;emsp;去书店买书，请老">
@@ -466,7 +466,7 @@ def url_wrapper(urls):
             path, handles = url[0],url[1]
             name = None if len(url)&lt;3 else url[2]
 
-        if isinstance(handles, (tuple, list)):
+        if isinstance(handles, (tuple, list)):             #如果是include，则包含的handles是元组或列表形式
             for handle in handles:
                 if isinstance(handle, URLSpec):
                     pattern, handle_class, url_name = handle.regex.pattern, handle.handler_class, handle.name
@@ -474,9 +474,9 @@ def url_wrapper(urls):
                     pattern, handle_class = handle[0],handle[1]
                     url_name = None if len(handle)&lt;3 else handle[2]
                 if name==None:
-                    retname = url_name
+                    retname = url_name                      #如果外层name为None，则reverse_url直接使用内层name
                 else:
-                    retname = name+&apos;_&apos;+url_name if url_name else None
+                    retname = name+&apos;_&apos;+url_name if url_name else None           #如果外层name不为None，内层name为空则不定义name，即无法被reverse_url使用，内层不为空则reverse_url调用名称为【外层name_内层name】
                 wrapper_list.append(URLSpec(&apos;{0}{1}&apos;.format(path, pattern), handle_class,name=retname))
         else:
             wrapper_list.append(URLSpec(path, handles,name=name))
