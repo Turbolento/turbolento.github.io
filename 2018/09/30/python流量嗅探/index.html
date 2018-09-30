@@ -89,7 +89,7 @@
 <meta property="og:site_name" content="千里一日还先生">
 <meta property="og:description" content="有时候，我们需要对客户端流量进行分析，了解未知的协议，但在一些严格企业级环境中，可能会遇到wireshark无法使用的情况，这时候就需要自己去编写一个本地工具以获取指定网卡流量信息。   1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-09-30T01:48:57.559Z">
+<meta property="og:updated_time" content="2018-09-30T06:02:18.416Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="python流量嗅探">
 <meta name="twitter:description" content="有时候，我们需要对客户端流量进行分析，了解未知的协议，但在一些严格企业级环境中，可能会遇到wireshark无法使用的情况，这时候就需要自己去编写一个本地工具以获取指定网卡流量信息。   1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575">
@@ -455,7 +455,53 @@ recieved 238 bytes from remote.SYN=755814128 ACK=3492030818
 <p>通俗来讲就是，假如A、B通讯，对于A、B都能确保——<strong>1）能收到对方发送给自己的信息；2）自己发送的信息能被对方收到。</strong>  </p>
 <p>假如只握手两次的话，A发送消息给B，B返回确认消息。 对于A来讲，能够满足上面2个条件。但对于B来讲，只能满足第一个条件，而无法满足第二个条件。  </p>
 <p>那为什么要4次挥手呢？<br>因为断开连接时，需要确保双方信息已经发送完毕。1）A发送结束信号给B；2）B告诉A：好的，我知道了；3）B继续发送数据完成，通知A：可以断开连接了；4）A收到B的通知后，断开连接。</p>
+<p><strong>补充：</strong><br>ctypes 结构体位域<br>(位域名,c_ubyte,位域长度)<br>1.一个位域必须存储在同一个字节中，不能跨两个字节。如一个字节所剩空间不够存放另一位域时，应从下一单元起存放该位域。也可以有意使某位域从下一单元开始。例如：  </p>
+<pre><code>struct bs
+{
+    unsigned a:4
+    unsigned b:5 /*从下一单元开始存放*/
+    unsigned c:4
+}
+</code></pre><p>2.由于位域不允许跨两个字节，因此位域的长度不能大于一个字节的长度。<br>3.位域可以无位域名，这时它只用来作填充或调整位置。无名的位域是不能使用的。例如：  </p>
+<pre><code>struct k
+{
+    int a:1
+    int :2 /*无位域名，该2位不能使用*/
+    int b:3
+    int c:2
+}; 
+</code></pre><p>4.不够一个字节的位域，从后往前取bit  </p>
+<pre><code># -*-coding:utf-8 -*-
+from ctypes import *
 
+x = bytes(&quot;\x45\xA3\x35\x34\x56\x58\xA2\x31\x12\x89&quot;)
+
+print bin(int(&quot;45&quot;,16))     #0b01000101
+print bin(int(&quot;A3&quot;,16))     #0b10100011
+print bin(int(&quot;35&quot;,16))     #0b00110101
+
+class A(Structure):
+    _fields_ = [
+        (&quot;a&quot;,c_ubyte,3),            #0b01000101，取最后3位 101 = 5
+        (&quot;b&quot;,c_ubyte,3),            #0b01000101，再往前取3位 000 = 0
+        (&quot;c&quot;,c_ubyte,2),            #0b01000101，取剩下的前2位 01 = 1
+        (&quot;d&quot;,c_ubyte,4),            #0b10100011,取4位，0011 = 3
+        (&quot;e&quot;,c_ubyte,5)             #0b00110101 前面剩余的位数不够，所以新使用一个字节，取后5位， 10101 = 21
+    ]
+
+    def __new__(self,bytesBuffer):
+        return self.from_buffer_copy(bytesBuffer)
+
+    def __init__(self,bytesBuffer):
+        pass
+
+if __name__ == &apos;__main__&apos;:
+    print A(x).a   #5
+    print A(x).b   #0
+    print A(x).c   #1
+    print A(x).d   #3
+    print A(x).e   #21
+</code></pre>
       
     </div>
     
