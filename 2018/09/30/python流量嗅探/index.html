@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="python,socket," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="千里一日还先生" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="0x00有时候，我们需要对客户端流量进行分析，了解未知的协议，但在一些严格企业级环境中，可能会遇到wireshark无法使用的情况，这时候就需要自己去编写一个本地工具以获取指定网卡流量信息。 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565">
+<meta name="keywords" content="python,socket">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python流量嗅探">
+<meta property="og:url" content="http://yoursite.com/2018/09/30/python流量嗅探/index.html">
+<meta property="og:site_name" content="千里一日还先生">
+<meta property="og:description" content="0x00有时候，我们需要对客户端流量进行分析，了解未知的协议，但在一些严格企业级环境中，可能会遇到wireshark无法使用的情况，这时候就需要自己去编写一个本地工具以获取指定网卡流量信息。 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-09-30T01:12:28.586Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="python流量嗅探">
+<meta name="twitter:description" content="0x00有时候，我们需要对客户端流量进行分析，了解未知的协议，但在一些严格企业级环境中，可能会遇到wireshark无法使用的情况，这时候就需要自己去编写一个本地工具以获取指定网卡流量信息。 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"always","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/09/30/python流量嗅探/"/>
+
+
+
+
+
+  <title>python流量嗅探 | 千里一日还先生</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">千里一日还先生</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home 主页"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags 标签"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th 分类"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive 归档"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user 关于"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/30/python流量嗅探/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Turbolento">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="千里一日还先生">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">python流量嗅探</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-30T08:57:09+08:00">
+                2018-09-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python/" itemprop="url" rel="index">
+                    <span itemprop="name">python</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python/网络安全/" itemprop="url" rel="index">
+                    <span itemprop="name">网络安全</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong>0x00</strong><br>有时候，我们需要对客户端流量进行分析，了解未知的协议，但在一些严格企业级环境中，可能会遇到wireshark无法使用的情况，这时候就需要自己去编写一个本地工具以获取指定网卡流量信息。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#coding=utf-8</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">指定本地网卡IP和远程主机地址，监控TCP流量的接受发送</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> struct</span><br><span class="line"><span class="keyword">from</span> ctypes <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hexdump</span><span class="params">(src, length=<span class="number">16</span>)</span>:</span></span><br><span class="line">    result = []</span><br><span class="line">    digits = <span class="number">4</span> <span class="keyword">if</span> isinstance(src, unicode) <span class="keyword">else</span> <span class="number">2</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">0</span>, len(src), length):</span><br><span class="line">        s = src[i:i + length]</span><br><span class="line">        hexa = <span class="string">b' '</span>.join([<span class="string">"%0*X"</span> % (digits, ord(x)) <span class="keyword">for</span> x <span class="keyword">in</span> s])</span><br><span class="line">        text = <span class="string">b''</span>.join([x <span class="keyword">if</span> <span class="number">0x20</span> &lt;= ord(x) &lt; <span class="number">0x7F</span> <span class="keyword">else</span> <span class="string">"&lt;%s&gt;"</span>%x.encode(<span class="string">"string-escape"</span>) <span class="keyword">for</span> x <span class="keyword">in</span> s])             <span class="comment">#非ascii可显示字符用.代替，将x.encode("string-escape")替换成b'.'</span></span><br><span class="line">        result.append(<span class="string">b"%04X  %-*s  %s"</span> % (i, length * (digits + <span class="number">1</span>), hexa, text))</span><br><span class="line">    print(<span class="string">b'\n'</span>.join(result))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">IP</span><span class="params">(Structure)</span>:</span></span><br><span class="line">    _fields_=[</span><br><span class="line">        (<span class="string">"ihl"</span>, c_ubyte,<span class="number">4</span>),             <span class="comment">#第三个值代表4bit,0.5byte , 不足一个字节是前后相反</span></span><br><span class="line">        (<span class="string">"version"</span>,c_ubyte,<span class="number">4</span>),          <span class="comment">#4bit,0.5byte</span></span><br><span class="line">        (<span class="string">"tos"</span>,c_ubyte),                <span class="comment">#8bit,1byte</span></span><br><span class="line">        (<span class="string">"len"</span>,c_ushort),               <span class="comment">#16bit,2byte</span></span><br><span class="line">        (<span class="string">"id"</span>,c_ushort),                <span class="comment">#16bit,2byte</span></span><br><span class="line">        (<span class="string">"offset"</span>,c_ushort),             <span class="comment">#16bit,2byte</span></span><br><span class="line">        (<span class="string">"ttl"</span>,c_ubyte),                <span class="comment">#8bit,1byte</span></span><br><span class="line">        (<span class="string">"protocol_num"</span>,c_ubyte),       <span class="comment">#8bit,1byte</span></span><br><span class="line">        (<span class="string">"sum"</span>,c_ushort),               <span class="comment">#16bit,2byte</span></span><br><span class="line">        (<span class="string">"src"</span>,c_ulong),                <span class="comment">#32bit,4byte</span></span><br><span class="line">        (<span class="string">"dst"</span>,c_ulong)                 <span class="comment">#32bit,4byte</span></span><br><span class="line">    ]</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__new__</span><span class="params">(self,socket_buffer=None)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.from_buffer_copy(socket_buffer)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,socket_buffer=None)</span>:</span></span><br><span class="line">        self.protocol_map = &#123;<span class="number">1</span>:<span class="string">"ICMP"</span>,<span class="number">6</span>:<span class="string">"TCP"</span>,<span class="number">17</span>:<span class="string">"UDP"</span>&#125;</span><br><span class="line"></span><br><span class="line">        self.src_address = socket.inet_ntoa(struct.pack(<span class="string">"&lt;L"</span>,self.src))</span><br><span class="line">        self.dst_address = socket.inet_ntoa(struct.pack(<span class="string">"&lt;L"</span>,self.dst))</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            self.protocol = self.protocol_map[self.protocol_num]</span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            self.protocol = str(self.protocol_num)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">(localhost,remotehost,remoteport)</span>:</span></span><br><span class="line">    <span class="comment"># 创建原始套接字，绑定在公开接口上</span></span><br><span class="line">    <span class="keyword">if</span> os.name == <span class="string">"nt"</span>:</span><br><span class="line">        socket_protocol = socket.IPPROTO_IP</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        socket_protocol = socket.IPPROTO_ICMP</span><br><span class="line"></span><br><span class="line">    sniffer = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket_protocol)</span><br><span class="line"></span><br><span class="line">    sniffer.bind((localhost, <span class="number">0</span>))</span><br><span class="line">    <span class="comment"># 设置在捕获的数据包中包含IP头</span></span><br><span class="line">    sniffer.setsockopt(socket.IPPROTO_IP, socket.IP_HDRINCL, <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 在WIN平台上，需要设置IOCTL以启用混杂模式</span></span><br><span class="line">    <span class="keyword">if</span> os.name == <span class="string">"nt"</span>:</span><br><span class="line">        sniffer.ioctl(socket.SIO_RCVALL, socket.RCVALL_ON)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">            raw_buffer = sniffer.recvfrom(<span class="number">65565</span>)[<span class="number">0</span>]</span><br><span class="line">            ip_header = IP(raw_buffer[<span class="number">0</span>:<span class="number">20</span>])</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> ip_header.protocol==<span class="string">"TCP"</span> <span class="keyword">and</span> ip_header.dst_address == remotehost:</span><br><span class="line">                offset = ip_header.ihl * <span class="number">4</span></span><br><span class="line">                ipContent = raw_buffer[offset:]</span><br><span class="line">                tcp_header = ipContent[<span class="number">0</span>:<span class="number">20</span>]</span><br><span class="line">                sourcePort = int(tcp_header[<span class="number">0</span>:<span class="number">2</span>].encode(<span class="string">"hex"</span>),<span class="number">16</span>)</span><br><span class="line">                destPort = int(tcp_header[<span class="number">2</span>:<span class="number">4</span>].encode(<span class="string">"hex"</span>),<span class="number">16</span>)</span><br><span class="line">                <span class="keyword">print</span> <span class="string">"Protocol:%s %s:%s -&gt; %s:%s"</span> % (ip_header.protocol, ip_header.src_address,sourcePort, ip_header.dst_address,destPort)</span><br><span class="line">                <span class="keyword">if</span> destPort == remoteport:</span><br><span class="line">                    sequenceNumber = int(tcp_header[<span class="number">4</span>:<span class="number">8</span>].encode(<span class="string">"hex"</span>),<span class="number">16</span>)</span><br><span class="line">                    acknowledgeNumber = int(tcp_header[<span class="number">8</span>:<span class="number">12</span>].encode(<span class="string">"hex"</span>),<span class="number">16</span>)  <span class="comment"># acknowledge number 表示的是，接收方期待接收的下一个包起始字节的标号</span></span><br><span class="line">                    tcpContent = ipContent[<span class="number">20</span>:]</span><br><span class="line">                    <span class="keyword">print</span> <span class="string">"send %d bytes to remote.SYN=%s ACK=%s"</span>%(len(tcpContent),sequenceNumber,acknowledgeNumber)</span><br><span class="line">                    hexdump(tcpContent)</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> ip_header.protocol==<span class="string">"TCP"</span> <span class="keyword">and</span> ip_header.src_address == remotehost:</span><br><span class="line">                offset = ip_header.ihl * <span class="number">4</span></span><br><span class="line">                ipContent = raw_buffer[offset:]</span><br><span class="line">                tcp_header = ipContent[<span class="number">0</span>:<span class="number">20</span>]</span><br><span class="line">                sourcePort = int(tcp_header[<span class="number">0</span>:<span class="number">2</span>].encode(<span class="string">"hex"</span>),<span class="number">16</span>)</span><br><span class="line">                destPort = int(tcp_header[<span class="number">2</span>:<span class="number">4</span>].encode(<span class="string">"hex"</span>),<span class="number">16</span>)</span><br><span class="line">                <span class="keyword">print</span> <span class="string">"Protocol:%s %s:%s -&gt; %s:%s"</span> % (ip_header.protocol, ip_header.src_address,sourcePort, ip_header.dst_address,destPort)</span><br><span class="line">                <span class="keyword">if</span> sourcePort == remoteport:</span><br><span class="line">                    sequenceNumber = int(tcp_header[<span class="number">4</span>:<span class="number">8</span>].encode(<span class="string">"hex"</span>),<span class="number">16</span>)</span><br><span class="line">                    acknowledgeNumber = int(tcp_header[<span class="number">8</span>:<span class="number">12</span>].encode(<span class="string">"hex"</span>),<span class="number">16</span>)  <span class="comment"># acknowledge number 表示的是，接收方期待接收的下一个包起始字节的标号</span></span><br><span class="line">                    tcpContent = ipContent[<span class="number">20</span>:]</span><br><span class="line">                    <span class="keyword">print</span> <span class="string">"recieved %d bytes from remote.SYN=%s ACK=%s"</span>%(len(tcpContent),sequenceNumber,acknowledgeNumber)</span><br><span class="line">                    hexdump(tcpContent)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">except</span> KeyboardInterrupt:</span><br><span class="line">        <span class="comment"># 关闭混杂模式</span></span><br><span class="line">        <span class="keyword">if</span> os.name == <span class="string">"nt"</span>:</span><br><span class="line">            sniffer.ioctl(socket.SIO_RCVALL, socket.RCVALL_OFF)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    main(<span class="string">"10.126.1.209"</span>,<span class="string">"172.30.1.71"</span>,<span class="number">80</span>)</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/python/" rel="tag"><i class="fa fa-tag"></i> python</a>
+          
+            <a href="/tags/socket/" rel="tag"><i class="fa fa-tag"></i> socket</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/02/tornado-web-RequestHandler对象详解/" rel="next" title="tornado.web.RequestHandler对象详解">
+                <i class="fa fa-chevron-left"></i> tornado.web.RequestHandler对象详解
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zMjkwMi85NDYz"></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Turbolento" />
+            
+              <p class="site-author-name" itemprop="name">Turbolento</p>
+              <p class="site-description motion-element" itemprop="description">谢繁华，绝交游，乐淡泊，甘寂寞</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Turbolento" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:jaln1025@126.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright"><i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Turbolento</span>
+
+  
+</div>
+<!--
+
+
+<div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+-->
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
