@@ -89,7 +89,7 @@
 <meta property="og:site_name" content="千里一日还先生">
 <meta property="og:description" content="需要用到的模块有系统自带的hashlib、base64、hmac，以及 第三方模块pyCrypto 1、MD5加密import hashlib def md5(data):     m = hashlib.md5()     m.update(data)     return m.hexdigest() 2、SHA256加密SHA256也称为HMAC_SHA256，hmac是Hash-based">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-07-18T02:16:32.964Z">
+<meta property="og:updated_time" content="2019-06-20T00:48:26.059Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="python实现常用加密算法">
 <meta name="twitter:description" content="需要用到的模块有系统自带的hashlib、base64、hmac，以及 第三方模块pyCrypto 1、MD5加密import hashlib def md5(data):     m = hashlib.md5()     m.update(data)     return m.hexdigest() 2、SHA256加密SHA256也称为HMAC_SHA256，hmac是Hash-based">
@@ -462,6 +462,25 @@ def AES_ECB_decrypt(data, password=&quot;yyfax10086100861&quot;):
     cipher = AES.new(password.encode(&quot;utf-8&quot;), AES.MODE_ECB)
     data = unpad(cipher.decrypt(data[bs:]))
     return data
+</code></pre><h4 id="6、DES加解密"><a href="#6、DES加解密" class="headerlink" title="6、DES加解密"></a>6、DES加解密</h4><p>ECB模式：</p>
+<pre><code>from pyDes import *
+import base64
+
+def des_ecb_decrypt(source, key):
+    source = base64.b64decode(source)
+    source =  bytearray(source)
+    source = [chr(x) for x in source]
+    des_obj = des(&apos;        &apos;, ECB, IV=None, pad=None, padmode=PAD_PKCS5)
+    des_obj.setKey(key.encode(&apos;utf-8&apos;))
+    des_result = des_obj.decrypt(source)
+    return des_result
+
+def des_ecb_encode(source, key):
+    des_obj = des(&apos;        &apos;, ECB, IV=None, pad=None, padmode=PAD_PKCS5)
+    des_obj.setKey(key.encode(&apos;utf-8&apos;))
+    source = [chr(ord(x)) for x in source]
+    des_result = des_obj.encrypt(source)
+    return base64.b64encode(des_result)
 </code></pre>
       
     </div>
@@ -670,7 +689,7 @@ def AES_ECB_decrypt(data, password=&quot;yyfax10086100861&quot;):
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、MD5加密"><span class="nav-text">1、MD5加密</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、SHA256加密"><span class="nav-text">2、SHA256加密</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、RSA加解密"><span class="nav-text">3、RSA加解密</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4、SHA1withRSA加密"><span class="nav-text">4、SHA1withRSA加密</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5、AES加解密"><span class="nav-text">5、AES加解密</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、MD5加密"><span class="nav-text">1、MD5加密</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、SHA256加密"><span class="nav-text">2、SHA256加密</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、RSA加解密"><span class="nav-text">3、RSA加解密</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4、SHA1withRSA加密"><span class="nav-text">4、SHA1withRSA加密</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5、AES加解密"><span class="nav-text">5、AES加解密</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6、DES加解密"><span class="nav-text">6、DES加解密</span></a></li></ol></div>
             
 
           </div>
@@ -693,7 +712,7 @@ def AES_ECB_decrypt(data, password=&quot;yyfax10086100861&quot;):
         <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 <div class="copyright"><i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
   本站访客数:<span id="busuanzi_value_site_uv"></span>
-</span>&copy; <span itemprop="copyrightYear">2018</span>
+</span>&copy; 2018 &mdash; <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
