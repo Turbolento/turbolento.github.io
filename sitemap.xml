@@ -86,20 +86,6 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/2018/01/03/M2Crypto%E4%BD%BF%E7%94%A8/</loc>
-    
-    <lastmod>2018-06-25T11:25:30.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2018/01/10/python%E5%A4%9A%E8%BF%9B%E7%A8%8B%E7%BC%96%E7%A8%8B/</loc>
-    
-    <lastmod>2018-06-25T11:25:30.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://yoursite.com/2018/01/08/RF%E5%85%B3%E8%81%94%E6%A1%88%E4%BE%8B%E8%AE%BE%E7%BD%AE%E6%96%B9%E6%B3%95/</loc>
     
     <lastmod>2018-06-25T11:25:30.000Z</lastmod>
@@ -114,7 +100,7 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/404.html</loc>
+    <loc>http://yoursite.com/2018/01/10/python%E5%A4%9A%E8%BF%9B%E7%A8%8B%E7%BC%96%E7%A8%8B/</loc>
     
     <lastmod>2018-06-25T11:25:30.000Z</lastmod>
     
@@ -128,7 +114,7 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/tags/index.html</loc>
+    <loc>http://yoursite.com/404.html</loc>
     
     <lastmod>2018-06-25T11:25:30.000Z</lastmod>
     
@@ -136,6 +122,20 @@
   
   <url>
     <loc>http://yoursite.com/categories/index.html</loc>
+    
+    <lastmod>2018-06-25T11:25:30.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/tags/index.html</loc>
+    
+    <lastmod>2018-06-25T11:25:30.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2018/01/03/M2Crypto%E4%BD%BF%E7%94%A8/</loc>
     
     <lastmod>2018-06-25T11:25:30.000Z</lastmod>
     
