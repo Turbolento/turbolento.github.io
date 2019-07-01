@@ -89,7 +89,7 @@
 <meta property="og:site_name" content="千里一日还先生">
 <meta property="og:description" content="需要用到的模块有系统自带的hashlib、base64、hmac，以及 第三方模块pyCrypto 1、MD5加密import hashlib def md5(data):     m = hashlib.md5()     m.update(data)     return m.hexdigest() 2、SHA256加密SHA256也称为HMAC_SHA256，hmac是Hash-based">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-06-20T00:48:26.059Z">
+<meta property="og:updated_time" content="2019-07-01T00:33:35.923Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="python实现常用加密算法">
 <meta name="twitter:description" content="需要用到的模块有系统自带的hashlib、base64、hmac，以及 第三方模块pyCrypto 1、MD5加密import hashlib def md5(data):     m = hashlib.md5()     m.update(data)     return m.hexdigest() 2、SHA256加密SHA256也称为HMAC_SHA256，hmac是Hash-based">
@@ -408,13 +408,17 @@ def rsa_decrypt(encrypt_text):
         cipher = Cipher_pkcs1_v1_5.new(rsakey)
         text = cipher.decrypt(base64.b64decode(encrypt_text), random_generator)
     return text
-</code></pre><h4 id="4、SHA1withRSA加密"><a href="#4、SHA1withRSA加密" class="headerlink" title="4、SHA1withRSA加密"></a>4、SHA1withRSA加密</h4><p>这种加密方式常用于一般接口中做签名校验  </p>
+</code></pre><h4 id="4、SHA1withRSA加密"><a href="#4、SHA1withRSA加密" class="headerlink" title="4、SHA1withRSA加密"></a>4、SHA1withRSA加密</h4><p>这种加密方式常用于一般接口中做签名校验，isPem为True的时候，传入的是密钥文件格式，以—-BEGIN PRIVATE KEY—-开头的多行文本；isPem为False时，传入的是私钥字符串privateKey。  </p>
 <pre><code>import base64
 from Crypto.Signature import PKCS1_v1_5
 from Crypto.PublicKey import RSA
 from Crypto.Hash import SHA
 
-def sign(data,pem):
+def sign(data,secret,isPem=False):
+    if isPem:
+        pem = secret
+    else:
+        pem = &quot;-----BEGIN PRIVATE KEY-----\n&quot;+&quot;\n&quot;.join([secret[64*i:64*(i+1)] for i in range(len(secret)//64+1)])+&quot;\n-----END PRIVATE KEY-----&quot;
     private_key = RSA.importKey(pem)
     cipher = PKCS1_v1_5.new(private_key)
     h = SHA.new(data)
