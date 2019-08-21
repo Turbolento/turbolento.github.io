@@ -81,18 +81,18 @@
 
 
 
-<meta name="description" content="源码如下：```pythonimport refrom collections import namedtuple DECIMAL = r’(?P\d+(.\d+)?)’PLUS = r’(?P+)’MINUS = r’(?P-)’MULTI = r’(?P*)’DIVIDE = r’(?P/)’LPAREN = r’(?P()’RPAREN = r’(?P))’WS = r’(?P\s+)’ m">
+<meta name="description" content="&amp;emsp;&amp;emsp;当你想根据一组语法规则解析文本并执行命令时，我们可以先以BNF或者EBNF形式指定一个标准语法，再根据正则规则将文本分解为一组令牌流，然后根据(E)BNF语法依次处理令牌流。 1. EBNF简介&amp;emsp;&amp;emsp;EBNF(Extended Backus–Naur Form,扩展的巴克斯范式)是一种用于描述计算机编程语言等正式语言的与上下文无关语法的元语法(metasy">
 <meta name="keywords" content="文本解析,EBNF范式">
 <meta property="og:type" content="article">
 <meta property="og:title" content="利用EBNF语法解析实现简单的数学表达式计算">
 <meta property="og:url" content="http://yoursite.com/2019/08/21/利用EBNF语法解析实现简单的数学表达式计算/index.html">
 <meta property="og:site_name" content="千里一日还先森">
-<meta property="og:description" content="源码如下：```pythonimport refrom collections import namedtuple DECIMAL = r’(?P\d+(.\d+)?)’PLUS = r’(?P+)’MINUS = r’(?P-)’MULTI = r’(?P*)’DIVIDE = r’(?P/)’LPAREN = r’(?P()’RPAREN = r’(?P))’WS = r’(?P\s+)’ m">
+<meta property="og:description" content="&amp;emsp;&amp;emsp;当你想根据一组语法规则解析文本并执行命令时，我们可以先以BNF或者EBNF形式指定一个标准语法，再根据正则规则将文本分解为一组令牌流，然后根据(E)BNF语法依次处理令牌流。 1. EBNF简介&amp;emsp;&amp;emsp;EBNF(Extended Backus–Naur Form,扩展的巴克斯范式)是一种用于描述计算机编程语言等正式语言的与上下文无关语法的元语法(metasy">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-08-21T08:32:24.954Z">
+<meta property="og:updated_time" content="2019-08-21T09:26:09.749Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="利用EBNF语法解析实现简单的数学表达式计算">
-<meta name="twitter:description" content="源码如下：```pythonimport refrom collections import namedtuple DECIMAL = r’(?P\d+(.\d+)?)’PLUS = r’(?P+)’MINUS = r’(?P-)’MULTI = r’(?P*)’DIVIDE = r’(?P/)’LPAREN = r’(?P()’RPAREN = r’(?P))’WS = r’(?P\s+)’ m">
+<meta name="twitter:description" content="&amp;emsp;&amp;emsp;当你想根据一组语法规则解析文本并执行命令时，我们可以先以BNF或者EBNF形式指定一个标准语法，再根据正则规则将文本分解为一组令牌流，然后根据(E)BNF语法依次处理令牌流。 1. EBNF简介&amp;emsp;&amp;emsp;EBNF(Extended Backus–Naur Form,扩展的巴克斯范式)是一种用于描述计算机编程语言等正式语言的与上下文无关语法的元语法(metasy">
 
 
 
@@ -365,7 +365,56 @@
       
 
       
-        <p>源码如下：<br>```python<br>import re<br>from collections import namedtuple</p>
+        <p>&emsp;&emsp;当你想根据一组语法规则解析文本并执行命令时，我们可以先以BNF或者EBNF形式指定一个标准语法，再根据正则规则将文本分解为一组令牌流，然后根据(E)BNF语法依次处理令牌流。</p>
+<h3 id="1-EBNF简介"><a href="#1-EBNF简介" class="headerlink" title="1. EBNF简介"></a>1. EBNF简介</h3><p>&emsp;&emsp;EBNF(Extended Backus–Naur Form,扩展的巴克斯范式)是一种用于描述计算机编程语言等正式语言的与上下文无关语法的元语法(metasyntax)符号表示法。简而言之，它是一种描述语言的语言。</p>
+<p>&emsp;&emsp;EBNF一条规则基本书写规范如下：</p>
+<pre><code>symbol ::= alternative1 | alternative2 ...
+</code></pre><p>出现在规则左边的符号称为非终端，终端用双引号或单引号包裹起来。<br>BNF中有一个特殊符号“@”，表示符号可以去掉。如果用@替换符号，只需要将符号去掉。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">记号</th>
+<th style="text-align:center">意义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">[…]</td>
+<td style="text-align:center">可选</td>
+</tr>
+<tr>
+<td style="text-align:center">{…}*</td>
+<td style="text-align:center">重复,*表示重复0次或多次，和正则中一致。(?出现0次或1次，+出现至少1次)</td>
+</tr>
+<tr>
+<td style="text-align:center">(…)</td>
+<td style="text-align:center">分组</td>
+</tr>
+<tr>
+<td style="text-align:center">&#124;</td>
+<td style="text-align:center">并列选项，只能选一个</td>
+</tr>
+<tr>
+<td style="text-align:center">“…”</td>
+<td style="text-align:center">终端字符串</td>
+</tr>
+<tr>
+<td style="text-align:center">‘…’</td>
+<td style="text-align:center">终端字符串</td>
+</tr>
+</tbody>
+</table>
+<p>例如，用EBNF定义实数：</p>
+<pre><code>S := &apos;-&apos; FN | FN 
+FN := DL FP 
+FP := @ | &apos;.&apos; DL 
+DL := D DR 
+DR := D DR | @ 
+D := &apos;0&apos; | &apos;1&apos; | &apos;2&apos; | &apos;3&apos; | &apos;4&apos; | &apos;5&apos; | &apos;6&apos; | &apos;7&apos; | &apos;8&apos; | &apos;9&apos; 
+</code></pre><h3 id="2-解析文本为令牌流"><a href="#2-解析文本为令牌流" class="headerlink" title="2. 解析文本为令牌流"></a>2. 解析文本为令牌流</h3><p>2.1 先将文本分割成最小处理单元，同一类单元称为同一个Token，为所有Token定义匹配模式，并使用<code>?P&lt;TOKENNAME&gt;</code>指定模式名称。<br>例如,对于<code>&#39;foo = 23 + 43 * 10&#39;</code>定义匹配模式如下：<br>```python<br>import re<br>NAME = r’(?P<name>[a-zA-Z_][a-zA-Z_0-9]<em>)’<br>NUM = r’(?P<num>\d+)’<br>PLUS = r’(?P<plus>+)’<br>TIMES = r’(?P<times>\</times></plus></num></em>)’<br>EQ = r’(?P<eq>=)’<br>WS = r’(?P<ws>\s+)’<br>master_pat = re.compile(‘|’.join([NAME, NUM, PLUS, TIMES, EQ, WS]))</ws></eq></name></p>
+<p>2.2 </p>
+<p>源码如下：</p>
+<p>```python<br>import re<br>from collections import namedtuple</p>
 <p>DECIMAL = r’(?P<decimal>\d+(.\d+)?)’<br>PLUS = r’(?P<plus>+)’<br>MINUS = r’(?P<minus>-)’<br>MULTI = r’(?P<multi>*)’<br>DIVIDE = r’(?P<divide>/)’<br>LPAREN = r’(?P<lparen>()’<br>RPAREN = r’(?P<rparen>))’<br>WS = r’(?P<ws>\s+)’</ws></rparen></lparen></divide></multi></minus></plus></decimal></p>
 <p>master_pat = re.compile(‘|’.join([DECIMAL,PLUS,MINUS,MULTI,DIVIDE,LPAREN,RPAREN,WS]))</p>
 <p>Token = namedtuple(“Token”,[“type”,”value”])</p>
@@ -530,8 +579,17 @@ def factor(self):
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -618,6 +676,22 @@ def factor(self):
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-EBNF简介"><span class="nav-text">1. EBNF简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-解析文本为令牌流"><span class="nav-text">2. 解析文本为令牌流</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
