@@ -304,9 +304,9 @@ PLUS = r&amp;apos;(?
       <category term="vue.js" scheme="http://yoursite.com/categories/vue-js/"/>
     
     
-      <category term="前端" scheme="http://yoursite.com/tags/%E5%89%8D%E7%AB%AF/"/>
-    
       <category term="vue.js" scheme="http://yoursite.com/tags/vue-js/"/>
+    
+      <category term="前端" scheme="http://yoursite.com/tags/%E5%89%8D%E7%AB%AF/"/>
     
   </entry>
   
@@ -331,9 +331,9 @@ PLUS = r&amp;apos;(?
       <category term="vue.js" scheme="http://yoursite.com/categories/vue-js/"/>
     
     
-      <category term="前端" scheme="http://yoursite.com/tags/%E5%89%8D%E7%AB%AF/"/>
-    
       <category term="vue.js" scheme="http://yoursite.com/tags/vue-js/"/>
+    
+      <category term="前端" scheme="http://yoursite.com/tags/%E5%89%8D%E7%AB%AF/"/>
     
   </entry>
   
