@@ -81,18 +81,18 @@
 
 
 
-<meta name="description" content="源码如下： import re from collections import namedtuple  DECIMAL = r&amp;apos;(?P&amp;lt;DECIMAL&amp;gt;\d+(\.\d+)?)&amp;apos; PLUS = r&amp;apos;(?P&amp;lt;PLUS&amp;gt;\+)&amp;apos; MINUS = r&amp;apos;(?P&amp;lt;MINUS&amp;gt;-)&amp;apos; MULTI = r&amp;apos;">
+<meta name="description" content="源码如下：```pythonimport refrom collections import namedtuple DECIMAL = r’(?P\d+(.\d+)?)’PLUS = r’(?P+)’MINUS = r’(?P-)’MULTI = r’(?P*)’DIVIDE = r’(?P/)’LPAREN = r’(?P()’RPAREN = r’(?P))’WS = r’(?P\s+)’ m">
 <meta name="keywords" content="文本解析,EBNF范式">
 <meta property="og:type" content="article">
 <meta property="og:title" content="利用EBNF语法解析实现简单的数学表达式计算">
 <meta property="og:url" content="http://yoursite.com/2019/08/21/利用EBNF语法解析实现简单的数学表达式计算/index.html">
 <meta property="og:site_name" content="千里一日还先森">
-<meta property="og:description" content="源码如下： import re from collections import namedtuple  DECIMAL = r&amp;apos;(?P&amp;lt;DECIMAL&amp;gt;\d+(\.\d+)?)&amp;apos; PLUS = r&amp;apos;(?P&amp;lt;PLUS&amp;gt;\+)&amp;apos; MINUS = r&amp;apos;(?P&amp;lt;MINUS&amp;gt;-)&amp;apos; MULTI = r&amp;apos;">
+<meta property="og:description" content="源码如下：```pythonimport refrom collections import namedtuple DECIMAL = r’(?P\d+(.\d+)?)’PLUS = r’(?P+)’MINUS = r’(?P-)’MULTI = r’(?P*)’DIVIDE = r’(?P/)’LPAREN = r’(?P()’RPAREN = r’(?P))’WS = r’(?P\s+)’ m">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-08-21T08:17:34.332Z">
+<meta property="og:updated_time" content="2019-08-21T08:32:24.954Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="利用EBNF语法解析实现简单的数学表达式计算">
-<meta name="twitter:description" content="源码如下： import re from collections import namedtuple  DECIMAL = r&amp;apos;(?P&amp;lt;DECIMAL&amp;gt;\d+(\.\d+)?)&amp;apos; PLUS = r&amp;apos;(?P&amp;lt;PLUS&amp;gt;\+)&amp;apos; MINUS = r&amp;apos;(?P&amp;lt;MINUS&amp;gt;-)&amp;apos; MULTI = r&amp;apos;">
+<meta name="twitter:description" content="源码如下：```pythonimport refrom collections import namedtuple DECIMAL = r’(?P\d+(.\d+)?)’PLUS = r’(?P+)’MINUS = r’(?P-)’MULTI = r’(?P*)’DIVIDE = r’(?P/)’LPAREN = r’(?P()’RPAREN = r’(?P))’WS = r’(?P\s+)’ m">
 
 
 
@@ -365,106 +365,75 @@
       
 
       
-        <p>源码如下：</p>
-<pre><code>import re
-from collections import namedtuple
+        <p>源码如下：<br>```python<br>import re<br>from collections import namedtuple</p>
+<p>DECIMAL = r’(?P<decimal>\d+(.\d+)?)’<br>PLUS = r’(?P<plus>+)’<br>MINUS = r’(?P<minus>-)’<br>MULTI = r’(?P<multi>*)’<br>DIVIDE = r’(?P<divide>/)’<br>LPAREN = r’(?P<lparen>()’<br>RPAREN = r’(?P<rparen>))’<br>WS = r’(?P<ws>\s+)’</ws></rparen></lparen></divide></multi></minus></plus></decimal></p>
+<p>master_pat = re.compile(‘|’.join([DECIMAL,PLUS,MINUS,MULTI,DIVIDE,LPAREN,RPAREN,WS]))</p>
+<p>Token = namedtuple(“Token”,[“type”,”value”])</p>
+<p>def generate_tokens(text):<br>    scanner = master_pat.scanner(text)<br>    for m in iter(scanner.match,None):<br>        if m.lastgroup != ‘WS’:<br>            yield Token(m.lastgroup,m.group())</p>
+<p>class mathExpressionEvaluator:<br>    ‘’’<br>    支持实数范围内的加减乘数表达式计算。<br>    parse 方法接受表达式字符串，并返回计算结果.<br>    _accept 方法判断是否存在下一个token,并返回True或者False<br>    ‘’’</p>
+<pre><code>def parse(self,text):
+    self.tokens = generate_tokens(text)
+    self.tok = None
+    self.nextTok = None
+    self._getTok()
+    return self.expr()
 
-DECIMAL = r&apos;(?P&lt;DECIMAL&gt;\d+(\.\d+)?)&apos;
-PLUS = r&apos;(?P&lt;PLUS&gt;\+)&apos;
-MINUS = r&apos;(?P&lt;MINUS&gt;-)&apos;
-MULTI = r&apos;(?P&lt;MULTI&gt;\*)&apos;
-DIVIDE = r&apos;(?P&lt;DIVIDE&gt;/)&apos;
-LPAREN = r&apos;(?P&lt;LPAREN&gt;\()&apos;
-RPAREN = r&apos;(?P&lt;RPAREN&gt;\))&apos;
-WS = r&apos;(?P&lt;WS&gt;\s+)&apos;
+def _getTok(self):
+    self.tok,self.nextTok = self.nextTok,next(self.tokens,None)
 
-master_pat = re.compile(&apos;|&apos;.join([DECIMAL,PLUS,MINUS,MULTI,DIVIDE,LPAREN,RPAREN,WS]))
-
-Token = namedtuple(&quot;Token&quot;,[&quot;type&quot;,&quot;value&quot;])
-
-def generate_tokens(text):
-    scanner = master_pat.scanner(text)
-    for m in iter(scanner.match,None):
-        if m.lastgroup != &apos;WS&apos;:
-            yield Token(m.lastgroup,m.group())
-
-class mathExpressionEvaluator:
-    &apos;&apos;&apos;
-    支持实数范围内的加减乘数表达式计算。
-    parse 方法接受表达式字符串，并返回计算结果.
-    _accept 方法判断是否存在下一个token,并返回True或者False
-    &apos;&apos;&apos;
-
-    def parse(self,text):
-        self.tokens = generate_tokens(text)
-        self.tok = None
-        self.nextTok = None
+def _accept(self,toktype):
+    if self.nextTok and self.nextTok.type==toktype:
         self._getTok()
-        return self.expr()
+        return True
+    else:
+        return False
 
-    def _getTok(self):
-        self.tok,self.nextTok = self.nextTok,next(self.tokens,None)
-
-    def _accept(self,toktype):
-        if self.nextTok and self.nextTok.type==toktype:
-            self._getTok()
-            return True
-        else:
-            return False
-
-    def _expected(self,toktype):
-        if not self._accept(toktype):
-            raise SyntaxError(&apos;Expected &apos;+ toktype)
+def _expected(self,toktype):
+    if not self._accept(toktype):
+        raise SyntaxError(&apos;Expected &apos;+ toktype)
 
 
 
-    &quot;&quot;&quot;
-    加减乘除表达式的 EBNF 语法规则:
-        expr ::= term { (+|-)term }*
-        term ::= factor { (*|/)factor }*
-        factor ::= DECIMAL | (expr) 
-    &quot;&quot;&quot;
-    def expr(self):
-        expr_val = self.term()
-        while self._accept(&quot;PLUS&quot;) or self._accept(&quot;MINUS&quot;):
-            op = self.tok.type
-            right = self.term()
-            if op==&quot;PLUS&quot;:
-                expr_val += right
-            elif op == &quot;MINUS&quot;:
-                expr_val -= right
-        return expr_val
+&quot;&quot;&quot;
+加减乘除表达式的 EBNF 语法规则:
+    expr ::= term { (+|-)term }*
+    term ::= factor { (*|/)factor }*
+    factor ::= DECIMAL | (expr) 
+&quot;&quot;&quot;
+def expr(self):
+    expr_val = self.term()
+    while self._accept(&quot;PLUS&quot;) or self._accept(&quot;MINUS&quot;):
+        op = self.tok.type
+        right = self.term()
+        if op==&quot;PLUS&quot;:
+            expr_val += right
+        elif op == &quot;MINUS&quot;:
+            expr_val -= right
+    return expr_val
 
-    def term(self):
-        term_val = self.factor()
-        while self._accept(&quot;MULTI&quot;) or self._accept(&quot;DIVIDE&quot;):
-            op = self.tok.type
-            right = self.factor()
-            if op == &quot;MULTI&quot;:
-                term_val *= right
-            elif op == &quot;DIVIDE&quot;:
-                term_val /= right
-        return term_val
+def term(self):
+    term_val = self.factor()
+    while self._accept(&quot;MULTI&quot;) or self._accept(&quot;DIVIDE&quot;):
+        op = self.tok.type
+        right = self.factor()
+        if op == &quot;MULTI&quot;:
+            term_val *= right
+        elif op == &quot;DIVIDE&quot;:
+            term_val /= right
+    return term_val
 
-    def factor(self):
-        if self._accept(&quot;DECIMAL&quot;):
-            return float(self.tok.value)
-        elif self._accept(&quot;LPAREN&quot;):
-            factor_val = self.expr()
-            self._expected(&quot;RPAREN&quot;)
-            return factor_val
-        else:
-            raise SyntaxError(&apos;Expected DECIMAL or LPAREN&apos;)
+def factor(self):
+    if self._accept(&quot;DECIMAL&quot;):
+        return float(self.tok.value)
+    elif self._accept(&quot;LPAREN&quot;):
+        factor_val = self.expr()
+        self._expected(&quot;RPAREN&quot;)
+        return factor_val
+    else:
+        raise SyntaxError(&apos;Expected DECIMAL or LPAREN&apos;)
+</code></pre><p>def descent_parser():<br>    e = mathExpressionEvaluator()<br>    expressionList = [‘2’,’2 + 3.5’,’6 + 1.5 <em> (3 - 1)’,’10 / (5 - 3) </em> (3 + 5)’]<br>    for expression in expressionList:<br>        print(‘{} = {}’.format(expression,e.parse(expression)))</p>
+<p>if <strong>name</strong> == ‘<strong>main</strong>‘:<br>    descent_parser()</p>
 
-def descent_parser():
-    e = mathExpressionEvaluator()
-    expressionList = [&apos;2&apos;,&apos;2 + 3.5&apos;,&apos;6 + 1.5 * (3 - 1)&apos;,&apos;10 / (5 - 3) * (3 + 5)&apos;]
-    for expression in expressionList:
-        print(&apos;{} = {}&apos;.format(expression,e.parse(expression)))
-
-if __name__ == &apos;__main__&apos;:
-    descent_parser()
-</code></pre>
       
     </div>
     
