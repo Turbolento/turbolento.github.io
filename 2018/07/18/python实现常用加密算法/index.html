@@ -89,7 +89,7 @@
 <meta property="og:site_name" content="千里一日还先森">
 <meta property="og:description" content="需要用到的模块有系统自带的hashlib、base64、hmac，以及 第三方模块pyCrypto 1、MD5加密import hashlib def md5(data):     m = hashlib.md5()     m.update(data)     return m.hexdigest() 2、SHA256加密SHA256也称为HMAC_SHA256，hmac是Hash-based">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-07-01T00:33:35.923Z">
+<meta property="og:updated_time" content="2019-10-14T09:57:04.402Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="python实现常用加密算法">
 <meta name="twitter:description" content="需要用到的模块有系统自带的hashlib、base64、hmac，以及 第三方模块pyCrypto 1、MD5加密import hashlib def md5(data):     m = hashlib.md5()     m.update(data)     return m.hexdigest() 2、SHA256加密SHA256也称为HMAC_SHA256，hmac是Hash-based">
@@ -408,6 +408,60 @@ def rsa_decrypt(encrypt_text):
         cipher = Cipher_pkcs1_v1_5.new(rsakey)
         text = cipher.decrypt(base64.b64decode(encrypt_text), random_generator)
     return text
+</code></pre><p>3.1 RSA公钥加密，私钥解密</p>
+<pre><code>import base64
+from cryptography.hazmat.backends import default_backend
+from cryptography.hazmat.primitives import serialization
+from cryptography.hazmat.primitives.asymmetric import padding
+
+
+def RSA_Encrypt_by_publicKey(data,publicKeyPath):
+    # 读取公钥数据
+    key_file = open(publicKeyPath, &apos;rb&apos;)
+    key_data = key_file.read()
+    key_file.close()
+
+    # 从公钥数据中加载公钥
+    public_key = serialization.load_pem_public_key(
+        key_data,
+        backend=default_backend()
+        )
+
+    # 使用公钥对原始数据进行加密，使用PKCS#1 v1.5的填充方式
+    out_data = public_key.encrypt(
+        data.encode(&quot;utf-8&quot;),
+        padding.PKCS1v15()
+    )
+
+    ret = base64.b64encode(out_data).decode(&quot;utf-8&quot;)
+    # 返回加密结果
+    return ret
+
+
+def RSA_Decrypt_by_privateKey(msg,privateKeyPath):
+    # 读取原始数据
+    data = base64.b64decode(msg.encode(&quot;utf-8&quot;))
+
+    # 读取私钥数据
+    key_file = open(privateKeyPath, &apos;rb&apos;)
+    key_data = key_file.read()
+    key_file.close()
+
+    # 从私钥数据中加载私钥
+    private_key = serialization.load_pem_private_key(
+        key_data,
+        password=None,
+        backend=default_backend()
+    )
+
+    # 使用私钥对数据进行解密，使用PKCS#1 v1.5的填充方式
+    out_data = private_key.decrypt(
+        data,
+        padding.PKCS1v15()
+    )
+
+    # 返回解密结果
+    return out_data.decode(&quot;utf-8&quot;)
 </code></pre><h4 id="4、SHA1withRSA加密"><a href="#4、SHA1withRSA加密" class="headerlink" title="4、SHA1withRSA加密"></a>4、SHA1withRSA加密</h4><p>这种加密方式常用于一般接口中做签名校验，isPem为True的时候，传入的是密钥文件格式，以—-BEGIN PRIVATE KEY—-开头的多行文本；isPem为False时，传入的是私钥字符串privateKey。  </p>
 <pre><code>import base64
 from Crypto.Signature import PKCS1_v1_5
