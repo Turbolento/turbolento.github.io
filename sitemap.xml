@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2019/10/15/VUEjs%E5%89%8D%E7%AB%AF-tornado%E5%90%8E%E7%AB%AF%E4%BC%98%E5%8C%96%E5%BC%80%E5%8F%91%E8%B0%83%E8%AF%95/</loc>
+    
+    <lastmod>2019-10-15T06:14:36.338Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2018/07/18/python%E5%AE%9E%E7%8E%B0%E5%B8%B8%E7%94%A8%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95/</loc>
     
     <lastmod>2019-10-14T09:57:04.402Z</lastmod>
@@ -107,14 +114,21 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/2018/01/08/RF%E6%89%A7%E8%A1%8C%E5%A4%B1%E8%B4%A5%E7%94%A8%E4%BE%8B%E9%87%8D%E8%B7%91/</loc>
+    <loc>http://yoursite.com/2018/01/08/RF%E5%85%B3%E8%81%94%E6%A1%88%E4%BE%8B%E8%AE%BE%E7%BD%AE%E6%96%B9%E6%B3%95/</loc>
     
     <lastmod>2018-06-25T11:25:30.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://yoursite.com/2018/01/08/RF%E5%85%B3%E8%81%94%E6%A1%88%E4%BE%8B%E8%AE%BE%E7%BD%AE%E6%96%B9%E6%B3%95/</loc>
+    <loc>http://yoursite.com/2018/01/10/python%E5%A4%9A%E8%BF%9B%E7%A8%8B%E7%BC%96%E7%A8%8B/</loc>
+    
+    <lastmod>2018-06-25T11:25:30.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2018/01/08/RF%E6%89%A7%E8%A1%8C%E5%A4%B1%E8%B4%A5%E7%94%A8%E4%BE%8B%E9%87%8D%E8%B7%91/</loc>
     
     <lastmod>2018-06-25T11:25:30.000Z</lastmod>
     
@@ -135,7 +149,7 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/2018/01/10/python%E5%A4%9A%E8%BF%9B%E7%A8%8B%E7%BC%96%E7%A8%8B/</loc>
+    <loc>http://yoursite.com/categories/index.html</loc>
     
     <lastmod>2018-06-25T11:25:30.000Z</lastmod>
     
@@ -143,13 +157,6 @@
   
   <url>
     <loc>http://yoursite.com/tags/index.html</loc>
-    
-    <lastmod>2018-06-25T11:25:30.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/categories/index.html</loc>
     
     <lastmod>2018-06-25T11:25:30.000Z</lastmod>
     
